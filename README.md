@@ -27,3 +27,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Herramientas utilizadas
+- [Materialize](https://materializecss.com/)
+- [vuex](https://vuex.vuejs.org/)

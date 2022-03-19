@@ -1,7 +1,7 @@
 <script setup>
 import ActionMenu from './components/ActionMenu.vue'
 import Info from './components/Info.vue'
-import introMenu from './components/IntroMenu.vue'
+import IntroMenu from './components/IntroMenu.vue'
 import Login from './components/Login.vue'
 </script>
 <template>
@@ -12,14 +12,13 @@ import Login from './components/Login.vue'
     </nav>
 
     <div class="row">
-      <div class="col m4">
-            <introMenu />
+        <div class="col m4">
+            <IntroMenu v-show="this.$store.state.inside"/>
         </div>
         <div class="col m4">
-            <introMenu />
+            <Login/>
         </div>
         <div class="col m4">
-            <introMenu />
         </div>
     </div>
 
@@ -29,13 +28,13 @@ import Login from './components/Login.vue'
 
 export default {
   components: {
-    introMenu
+    Login,
   }
 }
 </script>
 
 <style>
     *{
-        border-left: 2px solid red
+        border-left: 0px solid red
     }
 </style>
