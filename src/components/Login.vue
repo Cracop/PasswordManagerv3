@@ -39,9 +39,8 @@ export default {
     },
     methods: {
         login() {
-        this.$store.commit('login')
-        console.log(this.$store.state.inside)
-        console.log(this.usuario)
+            let payload = {"usuario": this.usuario, "password": this.password}
+            this.$store.commit('login',payload)
         }
   },
 }

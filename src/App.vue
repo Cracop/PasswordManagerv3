@@ -4,10 +4,18 @@ import Info from './components/Info.vue'
 import IntroMenu from './components/IntroMenu.vue'
 import Login from './components/Login.vue'
 </script>
+
 <template>
     <nav>
         <div class="nav-wrapper">
         <a href="#" class="brand-logo center">Password Manager V3</a>
+
+        <ul class="right hide-on-med-and-down" v-show="this.$store.state.inside">
+           <li><a>{{this.$store.state.usuario}}</a></li>
+           <li><a>Cambiar Contraseña Maestra</a></li>
+           <li><a @click="unLogin">Salir</a></li>
+        </ul>
+            
         </div>
     </nav>
 
@@ -16,7 +24,7 @@ import Login from './components/Login.vue'
             <IntroMenu v-show="this.$store.state.inside"/>
         </div>
         <div class="col m4">
-            <Login/>
+            <Login v-if="!this.$store.state.inside"/>
         </div>
         <div class="col m4">
         </div>
@@ -29,6 +37,12 @@ import Login from './components/Login.vue'
 export default {
   components: {
     Login,
+  }, 
+  methods:{
+      unLogin() {
+            let payload = {"usuario": "", "password": ""}
+            this.$store.commit('login',payload)
+        }
   }
 }
 </script>

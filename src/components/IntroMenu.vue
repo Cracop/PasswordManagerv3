@@ -1,10 +1,10 @@
 <template>
     <div class="row">
         <div class="col m4">
-          Intro
+            {{this.$store.state.usuario}}
         </div>
         <div class="col m4">
-            Intro
+            {{this.$store.state.HashKey}}
         </div>
         <div class="col m4">
             Intro

@@ -10,14 +10,16 @@ const store = createStore({//Para mantener las sesiones
     return {
       count: 0,
       inside: false,
+      usuario: "",
+      HashKey: "",
+
     }
   },
   mutations: {
-    increment (state) {
-      state.count++
-    },
-    login (state){
+    login (state, payload){
         state.inside = !state.inside;
+        state.usuario = payload.usuario;
+        state.HashKey = payload.password;
     },
 
   }
