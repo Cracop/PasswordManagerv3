@@ -19,6 +19,9 @@
                 
             </div>
             <div class="col m4 center-align">
+                <div class="row">
+                    <p class="waves-effect waves-light" v-show="this.$store.state.failedLogin">Failed Login</p>
+                </div>
                 <a class="waves-effect waves-light btn-large center-align" @click="login()">Ingresar</a>
             </div>
             <div class="col m4 center-align">

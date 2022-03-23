@@ -17,16 +17,16 @@ router.post("/users", async (req,res)=> { //add
     res.json(user)
 });
 
-//Get Specific user
-router.get("/users/:id", async (req,res)=> { //Select * where
+//Get Specific user AKA Login
+router.get("/users/:username/:password", async (req,res)=> { //Select * where
     try{
-        const user = await User.findById(req.params.id)
+        const user = await User.findOne({ 'usuario': req.params.username, "passwd":req.params.password })
         //si el id es valido, pero no hay tarea como esa
-        if (!user) return res.status(404).json({message: "user not found"})
+        if (!user) return res.status(404).send("hello")
         //console.log(user._id.toString())//Así guardo el valor del id
         res.send(user);
     }catch(error){//Si el id no es valido
-        //console.log(error)
+        console.log(error)
         return res.status(500).send(error);
     }
 });

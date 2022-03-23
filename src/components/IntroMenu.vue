@@ -7,7 +7,7 @@
             {{this.$store.state.HashKey}}
         </div>
         <div class="col m4">
-            Intro
+            {{this.$store.state.userId}}
         </div>
       
     </div>

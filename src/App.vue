@@ -1,8 +1,6 @@
 <script setup>
-import ActionMenu from './components/ActionMenu.vue'
-import Info from './components/Info.vue'
 import IntroMenu from './components/IntroMenu.vue'
-import Login from './components/Login.vue'
+import Login from './components/LoginMenu.vue'
 </script>
 
 <template>
@@ -11,7 +9,7 @@ import Login from './components/Login.vue'
         <a href="#" class="brand-logo center">Password Manager V3</a>
 
         <ul class="right hide-on-med-and-down" v-show="this.$store.state.inside">
-           <li><a>{{this.$store.state.usuario}}</a></li>
+           <li><a>{{this.$store.state.userId}}</a></li>
            <li><a>Cambiar Contraseña Maestra</a></li>
            <li><a @click="unLogin">Salir</a></li>
         </ul>
@@ -41,7 +39,7 @@ export default {
   methods:{
       unLogin() {
             let payload = {"usuario": "", "password": ""}
-            this.$store.commit('login',payload)
+            this.$store.commit('unLogin',payload)
         }
   }
 }

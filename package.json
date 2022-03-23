@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "serve": "npm run dev --prefix server",
     "build": "vite build",
     "preview": "vite preview --port 5050"
   },
   "dependencies": {
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^3.2.31",
+    "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

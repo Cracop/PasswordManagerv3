@@ -2,28 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import 'materialize-css/dist/css/materialize.css'
 
-import { createStore } from 'vuex'
+import store from "./store";
 
-// Create a new store instance.
-const store = createStore({//Para mantener las sesiones
-  state () {
-    return {
-      count: 0,
-      inside: false,
-      usuario: "",
-      HashKey: "",
 
-    }
-  },
-  mutations: {
-    login (state, payload){
-        state.inside = !state.inside;
-        state.usuario = payload.usuario;
-        state.HashKey = payload.password;
-    },
-
-  }
-})
 
 const app = createApp(App)
 //const app = createApp(App).mount('#app')
