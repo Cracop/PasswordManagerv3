@@ -32,10 +32,10 @@ router.get("/users/:id", async (req,res)=> { //Select * where
 
 router.delete("/users/:id", async (req,res)=> { //Delete from where
     try{
-        const task = await Task.findByIdAndDelete(req.params.id)
+        const user = await User.findByIdAndDelete(req.params.id)
         //si el id es valido, pero no hay tarea como esa
-        if (!task) return res.status(404).json({message: "task not found"})
-        return res.json(task)
+        if (!user) return res.status(404).json({message: "task not found"})
+        return res.json(user)
 
     }catch(error){//Si el id no es valido
         //console.log(error)

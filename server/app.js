@@ -24,7 +24,7 @@ app.use(express.json())
 app.use("/api", Routes);
 startConnection();
 //start server
-puerto = process.env.PORT ||3000
+puerto = process.env.PORT || 3000
 app.listen(puerto, ()=>{
     console.log("listeniing at port: "+puerto)
 }) 
