@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
-const connect = mongoose.connect
+const connect = mongoose.connect;
+require("dotenv").config();
 
-const uri = "mongodb+srv://rabm:rabm161099@mevn-database.sr8st.mongodb.net/mevn-database?retryWrites=true&w=majority";
+//dotenv
+const uri = process.env.BD_URI;
 
 const startConnection = async () => {
     try {
