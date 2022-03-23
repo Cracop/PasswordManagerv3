@@ -17,12 +17,13 @@ router.post("/users", async (req,res)=> { //add
     res.json(user)
 });
 
+//Get Specific user
 router.get("/users/:id", async (req,res)=> { //Select * where
     try{
         const user = await User.findById(req.params.id)
         //si el id es valido, pero no hay tarea como esa
         if (!user) return res.status(404).json({message: "user not found"})
-        
+        //console.log(user._id.toString())//Así guardo el valor del id
         res.send(user);
     }catch(error){//Si el id no es valido
         //console.log(error)
