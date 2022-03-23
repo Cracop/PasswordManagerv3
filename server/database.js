@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const connect = mongoose.connect;
-require("dotenv").config();
 
 //dotenv
 const uri = process.env.BD_URI;
