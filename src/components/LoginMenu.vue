@@ -5,7 +5,7 @@
         </div>
         <div class="row ">
             <div class="input-field col s12">
-            <input id="email" v-model="usuario" type="email" class="validate" placeholder="Email">
+            <input id="email" v-model="correo" type="email" class="validate" placeholder="Email">
 
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <a class="waves-effect waves-light btn-large center-align" @click="login()">Ingresar</a>
                 <div class="row">
                     <br>
-                    <a class="grey-text white btn-flat center-align" @click="register()">¿No tienes cuenta? Regístrate</a>
+                    <a class="grey-text white btn-flat center-align" @click="ShowRegisterMenu()">¿No tienes cuenta? Regístrate</a>
                 </div>
             </div>
             <div class="col m4 center-align">
@@ -42,16 +42,17 @@ export default {
         return {
             usuario: "",
             password: "",
+            correo: "",
         }
     },
     methods: {
         login() {
-            let payload = {"usuario": this.usuario, "password": this.password}
+            let payload = {"correo": this.correo, "password": this.password}
             this.$store.commit('login',payload)
         },
-        register() {
+        ShowRegisterMenu() {
             let payload = {"usuario": "this.usuario", "password": "this.password", "correo": "this.correo"}
-            this.$store.commit('register',payload)
+            this.$store.commit('ShowRegisterMenu',payload)
         }
   },
 }

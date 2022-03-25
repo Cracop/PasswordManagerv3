@@ -11,21 +11,28 @@ router.get("/users", async (req,res)=> { //Select *
 
 //Create user 
 //https://www.google.com/search?client=firefox-b-d&q=vue+send+data+to+post+reques#kpvalbx=_pJo7YuyYJ4LdqtsPtZOU4AQ16
-router.post("/users", async (req,res)=> { //add
+router.post("/users/:correo", async (req,res)=> { //add
     const {usuario, correo, passwd} = req.body;
     const user = new User({usuario, correo, passwd})
-    res.json({requestBody: req.body}) 
-    //console.log(task)
+    try {
+        const oldUser = await User.findOne({'correo': req.params.correo})
+        if (oldUser) throw res.status(400).send()
+
+        res.json({requestBody: req.body}) 
+        //console.log(task)
     await user.save();
+    }catch (err) {
+        return res.status(500).send(error);
+    }
     //res.json(user)
 });
 
 //Get Specific user AKA Login
-router.get("/user/:username/:password", async (req,res)=> { //Select * where
+router.get("/user/:correo/:password", async (req,res)=> { //Select * where
     try{
-        const user = await User.findOne({ 'usuario': req.params.username, "passwd":req.params.password })
+        const user = await User.findOne({ 'correo': req.params.correo, "passwd":req.params.password })
         //si el id es valido, pero no hay tarea como esa
-        if (!user) return res.status(404).send("hello")
+        if (!user) return res.status(404).send("No hay tal usuario")
         //console.log(user._id.toString())//Así guardo el valor del id
         res.send(user);
     }catch(error){//Si el id no es valido

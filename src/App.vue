@@ -1,6 +1,8 @@
 <script setup>
 import IntroMenu from './components/IntroMenu.vue'
-import Login from './components/LoginMenu.vue'
+import LoginMenu from './components/LoginMenu.vue'
+import RegisterMenu from "./components/RegisterMenu.vue"
+
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import Login from './components/LoginMenu.vue'
         <ul class="right hide-on-med-and-down" v-show="this.$store.state.inside">
            <li><a>{{this.$store.state.userId}}</a></li>
            <li><a>Cambiar Contraseña Maestra</a></li>
-           <li><a @click="unLogin">Salir</a></li>
+           <li><a @click="unLogin()">Salir</a></li>
         </ul>
             
         </div>
@@ -22,7 +24,8 @@ import Login from './components/LoginMenu.vue'
             <IntroMenu v-show="this.$store.state.inside"/>
         </div>
         <div class="col m4">
-            <Login v-if="!this.$store.state.inside"/>
+            <LoginMenu v-if="!this.$store.state.inside && !this.$store.state.registrando"/>
+            <RegisterMenu v-if="!this.$store.state.failedLogin && !this.$store.state.inside && this.$store.state.registrando"/>
         </div>
         <div class="col m4">
         </div>
@@ -34,12 +37,12 @@ import Login from './components/LoginMenu.vue'
 
 export default {
   components: {
-    Login,
+    LoginMenu, 
+    RegisterMenu
   }, 
   methods:{
       unLogin() {
-            let payload = {"usuario": "", "password": ""}
-            this.$store.commit('unLogin',payload)
+            this.$store.commit('unLogin')
         }
   }
 }
