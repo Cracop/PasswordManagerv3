@@ -59,9 +59,10 @@ export default {
             try {
                 let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo}
                 this.$store.commit('register',payload)
-                this.unLogin()
+                this.$store.commit('login',payload)
+                // this.unLogin()
             }catch(err){
-                // console.log(err)
+                console.log(err)
             }
         },
         unLogin() {

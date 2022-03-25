@@ -16,7 +16,7 @@ router.post("/users/:correo", async (req,res)=> { //add
     const user = new User({usuario, correo, passwd})
     try {
         const oldUser = await User.findOne({'correo': req.params.correo})
-        if (oldUser) throw res.status(400).send()
+        if (oldUser) return res.status(400).send()
 
         res.json({requestBody: req.body}) 
         //console.log(task)

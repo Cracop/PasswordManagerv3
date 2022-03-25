@@ -79,7 +79,10 @@ export default createStore({//Para mantener las sesiones
         headers:{
           'Content-Type': 'application/json'
         }
-      }).then(response => console.log('Success:', response))
+      }).then(response => {
+        console.log('Success:', response.status)
+        if (response.status === 400) throw ("Hello")
+      })
       .catch(error => console.log('Error:', error));
       }
     }
