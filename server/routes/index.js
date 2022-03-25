@@ -9,16 +9,19 @@ router.get("/users", async (req,res)=> { //Select *
     res.send(users);
 });
 
+//Create user 
+//https://www.google.com/search?client=firefox-b-d&q=vue+send+data+to+post+reques#kpvalbx=_pJo7YuyYJ4LdqtsPtZOU4AQ16
 router.post("/users", async (req,res)=> { //add
     const {usuario, correo, passwd} = req.body;
     const user = new User({usuario, correo, passwd})
+    res.json({requestBody: req.body}) 
     //console.log(task)
     await user.save();
-    res.json(user)
+    //res.json(user)
 });
 
 //Get Specific user AKA Login
-router.get("/users/:username/:password", async (req,res)=> { //Select * where
+router.get("/user/:username/:password", async (req,res)=> { //Select * where
     try{
         const user = await User.findOne({ 'usuario': req.params.username, "passwd":req.params.password })
         //si el id es valido, pero no hay tarea como esa
@@ -31,7 +34,7 @@ router.get("/users/:username/:password", async (req,res)=> { //Select * where
     }
 });
 
-router.delete("/users/:id", async (req,res)=> { //Delete from where
+router.delete("/user/:id", async (req,res)=> { //Delete from where
     try{
         const user = await User.findByIdAndDelete(req.params.id)
         //si el id es valido, pero no hay tarea como esa

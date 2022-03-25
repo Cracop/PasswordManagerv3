@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "serve": "npm run dev --prefix server",
+    "server": "npm run dev --prefix server",
     "build": "vite build",
     "preview": "vite preview --port 5050"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^3.2.31",
     "vue-router": "^4.0.13",

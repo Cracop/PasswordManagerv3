@@ -8,50 +8,62 @@ export default createStore({//Para mantener las sesiones
         usuario: "",
         HashKey: "",
         UserId: "",
-        failedLogin: false
+        failedLogin: false,
+        registrando: false
 
       }
     },
     mutations: {
       login (state, payload){
-          fetch("http://localhost:5000/api/users/"+payload.usuario+"/"+payload.password)
+          fetch("http://localhost:5000/api/user/"+payload.usuario+"/"+payload.password)
           .then(res => res.json())
           .then(data => {
-              if (data) {
                 state.inside = true;
                 state.userId = data._id;
                 state.usuario = data.usuario;
                 state.HashKey = data.passwd;
                 state.failedLogin = false
                 console.log(data)
-              }else{
-                state.failedLogin = true
-              }
           }).catch(err => {
             state.failedLogin = true
             console.log(state.failedLogin)
           });
           
       },
+
       unLogin(state, payload){
         state.inside = false;
         state.userId = "";
         state.usuario = "";
         state.HashKey = "";
 
-        const p = Promise.resolve(13);
 
-        p.then(value => {
-          console.log(value); // 👉️ 13
 
-          return value + value;
-        }).then(value => {
-          console.log(value); // 👉️ 26
+      },
 
-          return value + value;
-        });
+    //   {
+    //     "usuario": "Fernanda",
+    //     "correo": "correo3@gmail.com",
+    //     "passwd": "contra3"
+    // }
 
+    //https://developer.mozilla.org/en-US/docs/Web/API/fetch
+      register(state, payload){
+       let newUser = {
+              "usuario": "Fernanda",
+              "correo": "correo3@gmail.com",
+              "passwd": "contra3"
+        }
+      console.log(JSON.stringify(newUser));
+      fetch("http://localhost:5000/api/users", {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(newUser), // data can be `string` or {object}!
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
       }
-  
     }
   })
