@@ -58,8 +58,14 @@ export default {
         register() {
             try {
                 let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo}
-                this.$store.commit('register',payload)
-                this.$store.commit('login',payload)
+                
+                try {
+                    this.$store.commit('register',payload)
+                    this.$store.commit('login',payload)
+                }catch (err){
+                    console.log("Error al logear: "+err)
+                }
+                
                 // this.unLogin()
             }catch(err){
                 console.log(err)

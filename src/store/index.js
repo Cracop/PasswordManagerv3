@@ -67,23 +67,31 @@ export default createStore({//Para mantener las sesiones
 
     //https://developer.mozilla.org/en-US/docs/Web/API/fetch
       register(state, payload){
-       let newUser = {
-              "usuario": payload.usuario,
-              "correo": payload.correo,
-              "passwd": payload.password
+        
+        try{
+          let newUser = {
+            "usuario": payload.usuario,
+            "correo": payload.correo,
+            "passwd": payload.password
+          }
+          // console.log(JSON.stringify(newUser));
+          fetch("http://localhost:5000/api/users/"+newUser.correo, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(newUser), // data can be `string` or {object}!
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          }).then(response => {
+            // console.log('Success:', response.status)
+            if (response.status === 400) throw (response.status)
+          })
+          .catch(error => {
+            throw ("THIS NO LO ATRAPA"+error)
+          });
+        }catch(error){
+          throw(error+"final")
         }
-      console.log(JSON.stringify(newUser));
-      fetch("http://localhost:5000/api/users/"+newUser.correo, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(newUser), // data can be `string` or {object}!
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      }).then(response => {
-        console.log('Success:', response.status)
-        if (response.status === 400) throw ("Hello")
-      })
-      .catch(error => console.log('Error:', error));
-      }
+      } 
     }
+
   })
