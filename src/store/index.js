@@ -16,29 +16,31 @@ export default createStore({//Para mantener las sesiones
         HashKey: "",
         UserId: "",
         failedLogin: false,
-        registrando: false
-        
+        registrando: false,
+        errorMessage: ""
       }
     },
     mutations: {
-      login (state, payload){
-          fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
-          .then(res => res.json())
-          .then(data => {
-                state.userId = data._id;
-                state.usuario = data.usuario;
-                state.HashKey = data.passwd;
-                state.failedLogin = false
-                state.inside = true;
-                state.registrando = false
-                console.log(data)
-          }).catch(err => {
-            state.failedLogin = true
-            state.inside = false;
-            state.registrando = false
-            console.log(state.failedLogin)
-          });
-          
+      async login (state, payload){
+        try{
+          console.log(payload)
+          const response = await fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
+          const data = await response.json()
+          console.log(data)
+          state.userId = data._id;
+          state.usuario = data.usuario;
+          state.HashKey = data.passwd;
+          state.failedLogin = false
+          state.inside = true;
+          state.registrando = false
+
+        }catch(error){
+          console.log(error)
+          state.failedLogin = true
+          state.inside = false;
+          state.registrando = false
+            // console.log(state.failedLogin)
+        }          
       },
 
       unLogin(state){
@@ -49,6 +51,7 @@ export default createStore({//Para mantener las sesiones
         state.userId = "";
         state.usuario = "";
         state.HashKey = "";
+        state.errorMessage = "";
 
 
 
@@ -66,30 +69,27 @@ export default createStore({//Para mantener las sesiones
     // }
 
     //https://developer.mozilla.org/en-US/docs/Web/API/fetch
-      register(state, payload){
-        
+      async register(state, payload){
+        let newUser = {
+          "usuario": payload.usuario,
+          "correo": payload.correo,
+          "passwd": payload.password
+        }
         try{
-          let newUser = {
-            "usuario": payload.usuario,
-            "correo": payload.correo,
-            "passwd": payload.password
-          }
-          // console.log(JSON.stringify(newUser));
-          fetch("http://localhost:5000/api/users/"+newUser.correo, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify(newUser), // data can be `string` or {object}!
-            headers:{
-              'Content-Type': 'application/json'
-            }
-          }).then(response => {
-            // console.log('Success:', response.status)
-            if (response.status === 400) throw (response.status)
-          })
-          .catch(error => {
-            throw ("THIS NO LO ATRAPA"+error)
-          });
-        }catch(error){
-          throw(error+"final")
+          const response = await fetch("http://localhost:5000/api/users/"+newUser.correo, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(newUser), // data can be `string` or {object}!
+                headers:{
+                  'Content-Type': 'application/json'
+                }
+              })
+          if (response.status === 400){
+            state.errorMessage="Ya existe una cuenta con el correo asociado"
+            console.log(state.errorMessage)
+            throw (response.status)
+          } 
+          console.log("Si pude crear cuenta")
+        }catch(err){
         }
       } 
     }

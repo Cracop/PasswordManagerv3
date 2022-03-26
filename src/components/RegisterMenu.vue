@@ -25,7 +25,7 @@
             </div>
             <div class="col m4 center-align">
                 <div class="row">
-                    <p class="waves-effect waves-light" v-show="this.$store.state.failedLogin">Failed Login</p>
+                    <p class="waves-effect waves-light" v-show="this.$store.state.errorMessage">{{this.$store.state.errorMessage}}</p>
                 </div>
                 <a class="waves-effect waves-light btn-large center-align" @click="register()">Registrar</a>
                 <div class="row">
@@ -52,24 +52,21 @@ export default {
     },
     methods: {
         login() {
-            let payload = {"usuario": this.usuario, "password": this.password}
+            let payload = {"correo": this.correo, "password": this.password}
             this.$store.commit('login',payload)
         },
-        register() {
-            try {
-                let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo}
+        async register() {
+                let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo};
                 
-                try {
-                    this.$store.commit('register',payload)
-                    this.$store.commit('login',payload)
-                }catch (err){
-                    console.log("Error al logear: "+err)
-                }
+                this.$store.commit('register',payload).then(() => {
+                    console.log("Error Message: "+this.$store.state.errorMessage+" ");
+
+                if (this.$store.state.errorMessage==="") {
+                    console.log("Si puedo hacer login directo");
+                    this.login()
+                };
+                });
                 
-                // this.unLogin()
-            }catch(err){
-                console.log(err)
-            }
         },
         unLogin() {
             this.$store.commit('unLogin')
