@@ -54,18 +54,16 @@ export default {
         login() {
             let payload = {"correo": this.correo, "password": this.password}
             this.$store.commit('login',payload)
-        },
+        },  
         async register() {
                 let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo};
-                
-                this.$store.commit('register',payload).then(() => {
-                    console.log("Error Message: "+this.$store.state.errorMessage+" ");
-
+                //El problema es que no se para aquí, sino que se sigue
+                this.$store.commit('registerM',payload)
+                console.log("Esto debería ir después")
+                console.log("Error Message: "+this.$store.state.errorMessage+" ")
                 if (this.$store.state.errorMessage==="") {
-                    console.log("Si puedo hacer login directo");
-                    this.login()
+                    console.log("Si puedo hacer login directo")
                 };
-                });
                 
         },
         unLogin() {
