@@ -42,7 +42,7 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'RegisterMenu',
     data(){
         return {
             usuario: "",
@@ -58,7 +58,7 @@ export default {
         async register() {
                 let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo};
                 //El problema es que no se para aquí, sino que se sigue
-                let response = await this.$store.dispatch('register',payload)
+                await this.$store.dispatch('register',payload)
                 console.log("Esto debería ir después del registro")
                 console.log("Error Message: "+this.$store.state.errorMessage+" ")
                 if (this.$store.state.errorMessage==="") {

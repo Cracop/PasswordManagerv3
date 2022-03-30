@@ -20,7 +20,7 @@
             </div>
             <div class="col m4 center-align">
                 <div class="row">
-                    <p class="waves-effect waves-light" v-show="this.$store.state.failedLogin">Failed Login</p>
+                    <p class="waves-effect waves-light" v-show="this.$store.state.errorMessage">{{this.$store.state.errorMessage}}</p>
                 </div>
                 <a class="waves-effect waves-light btn-large center-align" @click="login()">Ingresar</a>
                 <div class="row">
@@ -37,7 +37,7 @@
 
 <script>
 export default {
-    name: 'Login',
+    name: 'LoginMenu',
     data(){
         return {
             usuario: "",
@@ -48,7 +48,7 @@ export default {
     methods: {
         login() {
             let payload = {"correo": this.correo, "password": this.password}
-            this.$store.commit('login',payload)
+            this.$store.dispatch('login',payload)
         },
         ShowRegisterMenu() {
             let payload = {"usuario": "this.usuario", "password": "this.password", "correo": "this.correo"}

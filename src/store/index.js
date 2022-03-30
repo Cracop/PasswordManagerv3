@@ -13,33 +13,30 @@ export default createStore({//Para mantener las sesiones
       usuario: "",
       HashKey: "",
       UserId: "",
+      currUser: {id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
-      registrando: true,
+      registrando: false,
       errorMessage: ""
     }
   },
       
   mutations: {
-    async login (state, payload){
-      try{
-        console.log(payload)
-        const response = await fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
-        const data = await response.json()
-        console.log(data)
-        state.userId = data._id;
-        state.usuario = data.usuario;
-        state.HashKey = data.passwd;
-        state.failedLogin = false
-        state.inside = true;
-        state.registrando = false
-    
-      }catch(error){
-        console.log(error)
-        state.failedLogin = true
-        state.inside = false;
-        state.registrando = false
-          // console.log(state.failedLogin)
-      }          
+    login (state, payload){
+      // Guardo mi usuario actual
+      state.currUser.id = payload.id;
+      state.currUser.usuario = payload.usuario;
+      state.currUser.correo = payload.correo;
+      state.currUser.hashKey = payload.password;
+      // Guardo en que estado estoy
+      state.failedLogin = false
+      state.inside = true;
+      state.registrando = false
+    },
+
+    failedLogin(state){
+      state.failedLogin = true
+      state.inside = false;
+      state.registrando = false
     },
     
     setErrorMessage(state, payload){
@@ -50,9 +47,7 @@ export default createStore({//Para mantener las sesiones
       state.inside = false;
       state.failedLogin = false;
       state.registrando = false
-      state.userId = "";
-      state.usuario = "";
-      state.HashKey = "";
+      state.currUser= {id: "", usuario: "", hashKey: "", correo:""},
       state.errorMessage = "";
     },
     ShowRegisterMenu(state){
@@ -65,7 +60,7 @@ export default createStore({//Para mantener las sesiones
 
   },
   actions:{
-    async register({commit},payload){
+    async register({commit, dispatch},payload){
       try{
         
         let newUser = {
@@ -81,22 +76,35 @@ export default createStore({//Para mantener las sesiones
                 'Content-Type': 'application/json'
               }
         })
-        
+
         if (response.status === 400){
           this.state.errorMessage="Ya existe una cuenta con el correo asociado";
         throw (response.status)
         }
-        this.state.errorMessage="";
-        console.log("Llamo al login")
-        commit("login",payload)
+
+        commit("setErrorMessage","");
+        // console.log("Llamo al login")
+        dispatch("login",payload)
       }catch{
-        this.state.errorMessage="Ya existe una cuenta con el correo asociado";
-        console.log("Mamó")
+        commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
       }finally{
         console.log("Ya acabe el registro")
       }
         
     },
 
+    async login({commit}, payload){
+      try {
+        let response = await fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
+        let data = await response.json()
+        let user = {id: data._id, usuario: data.usuario, password: data.passwd, correo: data.correo}
+        console.log("Usuario que soy")
+        console.log(user)
+        commit("login", user)
+      }catch(error){
+        commit("setErrorMessage","Credenciales Incorrectas");
+        commit("failedLogin")
+      }
+    }
   }
 })
