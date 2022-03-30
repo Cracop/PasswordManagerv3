@@ -58,8 +58,8 @@ export default {
         async register() {
                 let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo};
                 //El problema es que no se para aquí, sino que se sigue
-                this.$store.commit('registerM',payload)
-                console.log("Esto debería ir después")
+                let response = await this.$store.dispatch('register',payload)
+                console.log("Esto debería ir después del registro")
                 console.log("Error Message: "+this.$store.state.errorMessage+" ")
                 if (this.$store.state.errorMessage==="") {
                     console.log("Si puedo hacer login directo")

@@ -61,40 +61,42 @@ export default createStore({//Para mantener las sesiones
       state.registrando = true;
     },
     //   //https://developer.mozilla.org/en-US/docs/Web/API/fetch
-    registerM(state, payload){
-      let newUser = {
-        "usuario": payload.usuario,
-        "correo": payload.correo,
-        "passwd": payload.password
-      }
-      fetch("http://localhost:5000/api/users/"+newUser.correo, {
+    // https://www.codepanion.com/posts/2020-02-02-how-to-use-async-await-promises-with-fetch-in-vue-js-vuex/ 
+
+  },
+  actions:{
+    async register({commit},payload){
+      try{
+        
+        let newUser = {
+          "usuario": payload.usuario,
+          "correo": payload.correo,
+          "passwd": payload.password
+        }
+        
+        let response = await fetch("http://localhost:5000/api/users/"+newUser.correo, {
               method: 'POST', // or 'PUT'
               body: JSON.stringify(newUser), // data can be `string` or {object}!
               headers:{
                 'Content-Type': 'application/json'
               }
-        }).then(response => {
-          console.log("Esto va primero")
-          if (response.status === 400){
-            state.errorMessage="Ya existe una cuenta con el correo asociado";
-          throw (response.status)
-          }
-          console.log("Llamo al login")
-          console.log("Ya acabe el registro")
-        }).catch(err => {
-          // state.commit("setErrorMessage", "Ya existe una cuenta con el correo asociado")
-          console.log("Ya acabe el registro")
         })
-    },  
-
-  },
-  actions:{
-    async register(context,payload){
-      return await commit('registerM',payload)
-      // context.commit("login",payload)
+        
+        if (response.status === 400){
+          this.state.errorMessage="Ya existe una cuenta con el correo asociado";
+        throw (response.status)
+        }
+        this.state.errorMessage="";
+        console.log("Llamo al login")
+        commit("login",payload)
+      }catch{
+        this.state.errorMessage="Ya existe una cuenta con el correo asociado";
+        console.log("Mamó")
+      }finally{
+        console.log("Ya acabe el registro")
+      }
+        
     },
-    async login(context, payload){
-      return await commit("login", payload)
-    }
+
   }
 })
