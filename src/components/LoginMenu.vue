@@ -36,6 +36,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'LoginMenu',
     data(){
@@ -47,13 +48,15 @@ export default {
     },
     methods: {
         login() {
-            let payload = {"correo": this.correo, "password": this.password}
+            let payload = {"correo": this.correo, "password": this.$hashear(this.password)}
+            console.log(this.$decir(payload))
+            console.log(payload)
             this.$store.dispatch('login',payload)
         },
         ShowRegisterMenu() {
-            let payload = {"usuario": "this.usuario", "password": "this.password", "correo": "this.correo"}
-            this.$store.commit('ShowRegisterMenu',payload)
-        }
+            this.$store.commit('ShowRegisterMenu')
+        },
+
   },
 }
 </script>

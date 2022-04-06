@@ -2,7 +2,6 @@
 import IntroMenu from './components/IntroMenu.vue'
 import LoginMenu from './components/LoginMenu.vue'
 import RegisterMenu from "./components/RegisterMenu.vue"
-
 </script>
 
 <template>

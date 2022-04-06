@@ -11,6 +11,7 @@
     "crypto-js": "^4.1.1",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^3.2.31",
+    "vue-cryptojs": "^2.2.1",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },

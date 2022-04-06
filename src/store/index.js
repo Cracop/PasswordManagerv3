@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+
 // Create a new store instance.
 export default createStore({//Para mantener las sesiones
       // !failedLogin && !inside && !registrando = login por primera vez
@@ -60,7 +61,7 @@ export default createStore({//Para mantener las sesiones
 
   },
   actions:{
-    async register({commit, dispatch},payload){
+     async register({commit, dispatch},payload){
       try{
         
         let newUser = {
@@ -98,8 +99,8 @@ export default createStore({//Para mantener las sesiones
         let response = await fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
         let data = await response.json()
         let user = {id: data._id, usuario: data.usuario, password: data.passwd, correo: data.correo}
-        console.log("Usuario que soy")
-        console.log(user)
+        // console.log("Usuario que soy")
+        // console.log(user)
         commit("login", user)
       }catch(error){
         commit("setErrorMessage","Credenciales Incorrectas");
