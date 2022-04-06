@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     passwd:{
         type: String, 
         required: true,
-    }
+    },
     },{
     versionKey: false
 });

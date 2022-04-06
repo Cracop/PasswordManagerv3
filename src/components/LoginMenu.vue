@@ -48,8 +48,8 @@ export default {
     },
     methods: {
         login() {
-            let payload = {"correo": this.correo, "password": this.$hashear(this.password)}
-            console.log(this.$decir(payload))
+            let SaltedHash = this.$hashear(this.password)
+            let payload = {"correo": this.correo, "password": SaltedHash.hashedPasswd}
             console.log(payload)
             this.$store.dispatch('login',payload)
         },
