@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/Users');
 const Sec = require('../Security.js');
 
+//NOTA, LAS VARIABLES SE DEBEN LLAMAR IGUAL QUE LOS CAMPOS EN EL SCHEMA
 
 // all routes
 
@@ -26,6 +27,28 @@ router.post("/users/:correo", async (req,res)=> { //add
     await user.save();
     }catch (err) {
         return res.status(500).send(error);
+    }
+    //res.json(user)
+});
+
+router.post("/user/signup", async (req,res)=> { //add
+    
+    try {
+        let {usuario, correo, pass} = req.body;
+        const oldUser = await User.findOne({'correo': correo})
+        if (oldUser) return res.status(400).send()
+
+        const {hash, salt} = Sec.hashWithSalt(pass)
+        const passwd = hash;
+        const user = new User({usuario, correo, passwd, salt})
+        console.log(hash)
+        console.log(user)
+        res.json({user}) 
+        
+        await user.save();
+    }catch (err) {
+        console.log(err)
+        return res.status(500).send();
     }
     //res.json(user)
 });
