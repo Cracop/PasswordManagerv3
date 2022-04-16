@@ -4,11 +4,14 @@ export default {
     app.config.globalProperties.$saltear = () => {
       return CryptoJS.lib.WordArray.random(128 / 8).toString();
     },
-    app.config.globalProperties.$hashear = (passwd) => {
+    app.config.globalProperties.$hashWithSalt = (passwd) => {
       let salt = app.config.globalProperties.$saltear()
       // console.log(salt)
       let hash = CryptoJS.SHA256(passwd+salt).toString()
       return {hashedPasswd: hash, saltText: salt}
+    },
+    app.config.globalProperties.$hashear = (str) => {
+      return CryptoJS.SHA256(str).toString();
     }
   }
 }

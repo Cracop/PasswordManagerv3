@@ -2,7 +2,7 @@
 if (process.env.NODE_ENV !== 'production') {
     require("dotenv").config();//Solo en el app
 }
-
+puerto = process.env.PORT || 3000
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
@@ -24,7 +24,6 @@ app.use(express.json())
 app.use("/api", Routes);
 startConnection();
 //start server
-puerto = process.env.PORT || 3000
 app.listen(puerto, ()=>{
     console.log("listening at port: "+puerto)
 }) 

@@ -49,7 +49,7 @@ export default {
     methods: {
         login() {
             let payload = {"correo": this.correo, "password": this.password}
-            console.log(payload)
+            // console.log(payload)
             this.$store.dispatch('login',payload)
         },
         ShowRegisterMenu() {

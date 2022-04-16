@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import * as Sec from '../Security.js';
 
 // Create a new store instance.
 export default createStore({//Para mantener las sesiones
@@ -88,24 +89,38 @@ export default createStore({//Para mantener las sesiones
         dispatch("login",payload)
       }catch{
         commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
-      }finally{
-        console.log("Ya acabe el registro")
-      }
-        
+      } 
     },
 
     async login({commit}, payload){
       try {
-        let response = await fetch("http://localhost:5000/api/user/"+payload.correo+"/"+payload.password)
+        
+        let credentials = {
+          "correo": Sec.hashear(payload.correo),
+          "passwd": Sec.hashear(payload.passwd)
+        }
+        // console.log(JSON.stringify(credentials))
+        let response = await fetch("http://localhost:5000/api/user/login", {
+              method: 'POST', // or 'PUT'
+              body: JSON.stringify(credentials), // data can be `string` or {object}!
+              headers:{
+                'Content-Type': 'application/json; charset=UTF-8',
+              }
+        })
+        
         let data = await response.json()
-        let user = {id: data._id, usuario: data.usuario, password: data.passwd, correo: data.correo}
-        // console.log("Usuario que soy")
+        // console.log(data)
+        let user = {id: data.id, usuario: data.usuario, password: credentials.passwd, correo: credentials.correo}
         // console.log(user)
+        
         commit("login", user)
+
       }catch(error){
+        console.log(error)
         commit("setErrorMessage","Credenciales Incorrectas");
         commit("failedLogin")
       }
-    }
+    },
+
   }
 })

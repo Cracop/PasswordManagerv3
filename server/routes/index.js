@@ -13,6 +13,7 @@ router.get("/users", async (req,res)=> { //Select *
 
 //Create user 
 //https://www.google.com/search?client=firefox-b-d&q=vue+send+data+to+post+reques#kpvalbx=_pJo7YuyYJ4LdqtsPtZOU4AQ16
+// Debo quitar la info del UR
 router.post("/users/:correo", async (req,res)=> { //add
     const {usuario, correo, passwd} = req.body;
     const user = new User({usuario, correo, passwd})
@@ -29,7 +30,30 @@ router.post("/users/:correo", async (req,res)=> { //add
     //res.json(user)
 });
 
+router.post("/user/login", async (req,res)=> {
+    try{
+        const {correo, passwd} = req.body;
+        //console.log(req.body)
+        let user = await User.findOne({ 'correo': correo })
+
+        //si no hay correo guardado
+        if (!user) return res.status(404).send("No hay tal usuario")
+
+        // Si las contraseñas no coinciden
+        if(user.passwd !== Sec.hashWithSalt(passwd,user.salt).hashedPasswd) 
+            return res.status(500).send("Credenciales incorrectas");
+
+        console.log(user)
+        res.send({"id": user._id.toString(),"usuario": user.usuario});
+
+    }catch(error){
+        console.log(error)
+        return res.status(500).send(error);
+    }
+});
+
 //Get Specific user AKA Login
+// Debe ser un post
 router.get("/user/:correo/:password", async (req,res)=> { //Select * where
     try{
         const user = await User.findOne({ 'correo': req.params.correo, "passwd":req.params.password })
