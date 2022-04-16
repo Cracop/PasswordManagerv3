@@ -51,13 +51,10 @@ export default {
         }
     },
     methods: {
-        login() {
-            let payload = {"correo": this.correo, "password": this.password}
-            this.$store.commit('login',payload)
-        },  
         async register() {
-                let payload = {"usuario": this.usuario, "password": this.password, "correo": this.correo};
+                let payload = {"usuario": this.usuario, "passwd": this.password, "correo": this.correo};
                 //El problema es que no se para aquí, sino que se sigue
+                // console.log(payload)
                 await this.$store.dispatch('register',payload)
                 console.log("Esto debería ir después del registro")
                 console.log("Error Message: "+this.$store.state.errorMessage+" ")

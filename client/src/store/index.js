@@ -94,14 +94,13 @@ export default createStore({//Para mantener las sesiones
 
     async register({commit, dispatch},payload){
       try{
-        
         let newUser = {
           "usuario": payload.usuario,
           "correo": Sec.hashear(payload.correo),
-          "passwd": Sec.hashear(payload.password)
+          "passwd": Sec.hashear(payload.passwd)
         }
         
-        console.log(newUser)
+        // console.log(newUser)
         let response = await fetch("http://localhost:5000/api/user/signup", {
               method: 'POST', // or 'PUT'
               body: JSON.stringify(newUser), // data can be `string` or {object}!
@@ -117,12 +116,10 @@ export default createStore({//Para mantener las sesiones
 
         commit("setErrorMessage","");
         // console.log("Llamo al login")
-        console.log({"correo": payload.correo,
-        "passwd": payload.password})
-        const pay = {"correo": payload.correo,
-          "passwd": payload.password}
-
-        dispatch("login",pay)
+        // console.log({"correo": payload.correo,
+        // "passwd": payload.password})
+        console.log(payload)
+        dispatch("login",payload)
         
       }catch{
         commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
@@ -132,12 +129,12 @@ export default createStore({//Para mantener las sesiones
     async login({commit}, payload){
       try {
         
-        console.log(JSON.stringify(payload))
+        // console.log(payload)
         let credentials = {
           "correo": Sec.hashear(payload.correo),
           "passwd": Sec.hashear(payload.passwd)
         }
-        console.log(JSON.stringify(credentials))
+        console.log(credentials)
         let response = await fetch("http://localhost:5000/api/user/login", {
               method: 'POST', // or 'PUT'
               body: JSON.stringify(credentials), // data can be `string` or {object}!
