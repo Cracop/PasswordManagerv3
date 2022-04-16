@@ -44,7 +44,7 @@ router.post("/user/signup", async (req,res)=> { //add
         console.log(hash)
         console.log(user)
         res.json({user}) 
-        
+        console.log(user)
         await user.save();
     }catch (err) {
         console.log(err)
@@ -56,15 +56,18 @@ router.post("/user/signup", async (req,res)=> { //add
 router.post("/user/login", async (req,res)=> {
     try{
         const {correo, passwd} = req.body;
-        //console.log(req.body)
+        console.log(req.body)
         let user = await User.findOne({ 'correo': correo })
 
         //si no hay correo guardado
         if (!user) return res.status(404).send("No hay tal usuario")
 
         // Si las contraseñas no coinciden
-        if(user.passwd !== Sec.hashWithSalt(passwd,user.salt).hashedPasswd) 
-            return res.status(500).send("Credenciales incorrectas");
+        console.log("Hash guardado: "+user.passwd)
+        console.log("Hash recibido: "+passwd)
+        console.log("Hash salteado: " + Sec.hashWithSalt(passwd,user.salt).hash)
+        if(user.passwd !== Sec.hashWithSalt(passwd,user.salt).hash) 
+            return res.status(401).send("Credenciales incorrectas");
 
         console.log(user)
         res.send({"id": user._id.toString(),"usuario": user.usuario});

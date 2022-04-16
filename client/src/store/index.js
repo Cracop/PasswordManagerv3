@@ -62,7 +62,7 @@ export default createStore({//Para mantener las sesiones
 
   },
   actions:{
-     async register({commit, dispatch},payload){
+     async register2({commit, dispatch},payload){
       try{
         
         let newUser = {
@@ -92,14 +92,52 @@ export default createStore({//Para mantener las sesiones
       } 
     },
 
+    async register({commit, dispatch},payload){
+      try{
+        
+        let newUser = {
+          "usuario": payload.usuario,
+          "correo": Sec.hashear(payload.correo),
+          "passwd": Sec.hashear(payload.password)
+        }
+        
+        console.log(newUser)
+        let response = await fetch("http://localhost:5000/api/user/signup", {
+              method: 'POST', // or 'PUT'
+              body: JSON.stringify(newUser), // data can be `string` or {object}!
+              headers:{
+                'Content-Type': 'application/json'
+              }
+        })
+
+        if (response.status === 400){
+          this.state.errorMessage="Ya existe una cuenta con el correo asociado";
+        throw (response.status)
+        }
+
+        commit("setErrorMessage","");
+        // console.log("Llamo al login")
+        console.log({"correo": payload.correo,
+        "passwd": payload.password})
+        const pay = {"correo": payload.correo,
+          "passwd": payload.password}
+
+        dispatch("login",pay)
+        
+      }catch{
+        commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
+      } 
+    },
+
     async login({commit}, payload){
       try {
         
+        console.log(JSON.stringify(payload))
         let credentials = {
           "correo": Sec.hashear(payload.correo),
           "passwd": Sec.hashear(payload.passwd)
         }
-        // console.log(JSON.stringify(credentials))
+        console.log(JSON.stringify(credentials))
         let response = await fetch("http://localhost:5000/api/user/login", {
               method: 'POST', // or 'PUT'
               body: JSON.stringify(credentials), // data can be `string` or {object}!
