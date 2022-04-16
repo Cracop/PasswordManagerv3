@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/Users');
+const Sec = require('../Security.js');
+
 
 // all routes
 
@@ -59,6 +61,12 @@ router.delete("/user/:id", async (req,res)=> { //Delete from where
 router.patch('/user/:id', async (req, res) => {
     const user = await User.updateOne({_id: req.params.id}, {$set: req.body});
     res.json(user);
+});
+
+//Test API
+router.get("/test", async (req,res)=> { //Select *
+    const prueba = Sec.hashear("Hello")
+    res.send(prueba);
 });
 
 module.exports = router

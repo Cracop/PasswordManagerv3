@@ -26,5 +26,5 @@ startConnection();
 //start server
 puerto = process.env.PORT || 3000
 app.listen(puerto, ()=>{
-    console.log("listeniing at port: "+puerto)
+    console.log("listening at port: "+puerto)
 }) 
