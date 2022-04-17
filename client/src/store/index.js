@@ -94,10 +94,11 @@ export default createStore({//Para mantener las sesiones
 
     async register({commit, dispatch},payload){
       try{
+        const passwd = Sec.hashear(payload.passwd)
         let newUser = {
-          "usuario": payload.usuario,
+          "usuario": Sec.cifrar(payload.usuario,"passwd.slice(0, 32)"),
           "correo": Sec.hashear(payload.correo),
-          "passwd": Sec.hashear(payload.passwd)
+          "passwd": passwd
         }
         
         // console.log(newUser)
@@ -146,7 +147,11 @@ export default createStore({//Para mantener las sesiones
         
         let data = await response.json()
         // console.log(data)
-        let user = {"_id": data._id, "usuario": data.usuario, "password": credentials.passwd, "correo": credentials.correo}
+        let user = {
+          "_id": data._id, 
+          "usuario": Sec.descifrar(data.usuario,"passwd.slice(0, 32)"), 
+          "password": credentials.passwd, 
+          "correo": credentials.correo}
         console.log(user)
         
         commit("login", user)

@@ -14,3 +14,11 @@ export const hashWithSalt = (passwd, salt="96771a284196c83cec8d9ff09100b3a0")=>{
 export const hashear =(str)=>{        
     return CryptoJS.SHA256(str).toString();
 }
+
+export const cifrar = (str, llave) => {
+    return CryptoJS.AES.encrypt(str, llave).toString();
+}
+
+export const descifrar = (str, llave) => {
+    return CryptoJS.AES.decrypt(str, llave).toString();
+}
