@@ -20,5 +20,6 @@ export const cifrar = (str, llave) => {
 }
 
 export const descifrar = (str, llave) => {
-    return CryptoJS.AES.decrypt(str, llave).toString();
+    const bytes = CryptoJS.AES.decrypt(str, llave)
+    return bytes.toString(CryptoJS.enc.Utf8);
 }
