@@ -15,7 +15,7 @@ export default createStore({//Para mantener las sesiones
       usuario: "",
       HashKey: "",
       UserId: "",
-      currUser: {id: "", usuario: "", hashKey: "", correo:""},
+      currUser: {_id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
       registrando: false,
       errorMessage: ""
@@ -25,7 +25,7 @@ export default createStore({//Para mantener las sesiones
   mutations: {
     login (state, payload){
       // Guardo mi usuario actual
-      state.currUser.id = payload._id;
+      state.currUser._id = payload._id;
       state.currUser.usuario = payload.usuario;
       state.currUser.correo = payload.correo;
       state.currUser.hashKey = payload.password;
@@ -49,7 +49,7 @@ export default createStore({//Para mantener las sesiones
       state.inside = false;
       state.failedLogin = false;
       state.registrando = false
-      state.currUser= {id: "", usuario: "", hashKey: "", correo:""},
+      state.currUser= {_id: "", usuario: "", hashKey: "", correo:""},
       state.errorMessage = "";
     },
     ShowRegisterMenu(state){
@@ -120,8 +120,8 @@ export default createStore({//Para mantener las sesiones
         // "passwd": payload.password})
         // console.log(payload)
 
-        dispatch("login",payload)
-        
+        // dispatch("login",payload)
+        commit("unLogin")
       }catch{
         commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
       } 
@@ -146,8 +146,8 @@ export default createStore({//Para mantener las sesiones
         
         let data = await response.json()
         // console.log(data)
-        let user = {_id: data.id, usuario: data.usuario, password: credentials.passwd, correo: credentials.correo}
-        // console.log(user)
+        let user = {"_id": data._id, "usuario": data.usuario, "password": credentials.passwd, "correo": credentials.correo}
+        console.log(user)
         
         commit("login", user)
 

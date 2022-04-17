@@ -44,7 +44,8 @@ router.post("/user/signup", async (req,res)=> { //add
         const user = new User({usuario, correo, passwd, salt})
         res.json({user}) 
         // console.log(user)
-        await user.save();
+        const result = await user.save();
+        return res.status(200).send(result);
     }catch (err) {
         console.log(err)
         return res.status(500).send();
