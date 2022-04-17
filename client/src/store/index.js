@@ -25,7 +25,7 @@ export default createStore({//Para mantener las sesiones
   mutations: {
     login (state, payload){
       // Guardo mi usuario actual
-      state.currUser.id = payload.id;
+      state.currUser.id = payload._id;
       state.currUser.usuario = payload.usuario;
       state.currUser.correo = payload.correo;
       state.currUser.hashKey = payload.password;
@@ -118,7 +118,8 @@ export default createStore({//Para mantener las sesiones
         // console.log("Llamo al login")
         // console.log({"correo": payload.correo,
         // "passwd": payload.password})
-        console.log(payload)
+        // console.log(payload)
+
         dispatch("login",payload)
         
       }catch{
@@ -132,9 +133,9 @@ export default createStore({//Para mantener las sesiones
         // console.log(payload)
         let credentials = {
           "correo": Sec.hashear(payload.correo),
-          "passwd": Sec.hashear(payload.passwd)
+          "passwd": Sec.hashear(payload.password)
         }
-        console.log(credentials)
+        // console.log(credentials)
         let response = await fetch("http://localhost:5000/api/user/login", {
               method: 'POST', // or 'PUT'
               body: JSON.stringify(credentials), // data can be `string` or {object}!
@@ -145,7 +146,7 @@ export default createStore({//Para mantener las sesiones
         
         let data = await response.json()
         // console.log(data)
-        let user = {id: data.id, usuario: data.usuario, password: credentials.passwd, correo: credentials.correo}
+        let user = {_id: data.id, usuario: data.usuario, password: credentials.passwd, correo: credentials.correo}
         // console.log(user)
         
         commit("login", user)

@@ -35,14 +35,15 @@ router.post("/user/signup", async (req,res)=> { //add
     
     try {
         let {usuario, correo, passwd} = req.body;
+        console.log(passwd)
         const oldUser = await User.findOne({'correo': correo})
         if (oldUser) return res.status(400).send()
-
-        const {hash, salt} = Sec.hashWithSalt(passwd)
-        passwd = hash;
+        const salt = "96771a284196c83cec8d9ff09100b3a0"
+        let temp =  Sec.hashear(passwd+salt)
+        passwd = temp;
         const user = new User({usuario, correo, passwd, salt})
         res.json({user}) 
-        console.log(user)
+        // console.log(user)
         await user.save();
     }catch (err) {
         console.log(err)
@@ -63,13 +64,13 @@ router.post("/user/login", async (req,res)=> {
         // Si las contraseñas no coinciden
         console.log("Hash guardado: "+user.passwd)
         console.log("Hash recibido: "+passwd)
-        console.log("Sal: "+Sec.hashWithSalt(passwd,user.salt).salt)
-        console.log("Hash salteado: " + Sec.hashWithSalt(passwd,user.salt).hash)
-        if(user.passwd !== Sec.hashWithSalt(passwd,user.salt).hash) 
+        console.log("Sal: "+user.salt)
+        console.log("Hash salteado: " + Sec.hashear(passwd+user.salt))
+        if(user.passwd !== Sec.hashear(passwd+user.salt)) 
             return res.status(401).send("Credenciales incorrectas");
 
         console.log(user)
-        res.send({"id": user._id.toString(),"usuario": user.usuario});
+        res.send({"_id": user._id.toString(),"usuario": user.usuario});
 
     }catch(error){
         console.log(error)
