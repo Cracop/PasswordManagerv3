@@ -10,7 +10,7 @@ export default createStore({//Para mantener las sesiones
   state () {
     return {
       count: 0,
-      inside: false,
+      inside: true,
       correo: "",
       usuario: "",
       HashKey: "",
@@ -18,7 +18,30 @@ export default createStore({//Para mantener las sesiones
       currUser: {_id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
       registrando: false,
-      errorMessage: ""
+      errorMessage: "",
+      cuentas: [
+        {
+          id: "au3721233",
+          alias: "lalita",
+          idUsuario: "akskas123847547854",
+          sitio: "lala.com",
+          correo: "lala@gmail.com",
+          passwd: "lala",
+          username: "lala",
+          salt: "soyUnaTetera"
+        },
+        {
+          id: "au372ww1233",
+          alias: "alpurita",
+          idUsuario: "akskas123847547854",
+          sitio: "alpura.com",
+          correo: "lala@gmail.com",
+          passwd: "lala",
+          username: "lalaumi",
+          salt: "soyUnaTeteraPequeñita"
+        }
+      ],
+      cuentaSelected: false,
     }
   },
       
@@ -39,6 +62,7 @@ export default createStore({//Para mantener las sesiones
       state.failedLogin = true
       state.inside = false;
       state.registrando = false
+      state.cuentaSelected = false;
     },
     
     setErrorMessage(state, payload){
