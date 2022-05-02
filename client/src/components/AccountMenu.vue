@@ -5,9 +5,7 @@ import IndividualAccount from "./IndividualAccount.vue"
 <div class="container">
     <ul class="collection">
     <div v-for="cuenta in this.$store.state.cuentas" :key="cuenta.id">
-        <div class="card-panel grey lighten-5 z-depth-1" @click="select(cuenta)">
-            <IndividualAccount :cuenta="cuenta"/>
-        </div>
+            <IndividualAccount :cuenta="cuenta"/>       
     </div>
   </ul>
 </div> 
@@ -18,17 +16,14 @@ import IndividualAccount from "./IndividualAccount.vue"
 export default {
     data(){
         return {
-            
+            isHovering: false
         }
     },
     components: {
         IndividualAccount
     }, 
     methods: {
-        select(cuenta){
-            console.log(cuenta)
-            this.$store.state.cuentaSelected =  true
-        }
+
     }
 }
 </script>
@@ -37,6 +32,9 @@ export default {
 
 .card-panel {
     height:7rem;
+}
+.hover:hover{
+  color: red
 }
 
 </style>

@@ -9,39 +9,38 @@ export default createStore({//Para mantener las sesiones
       // !failedLogin && inside && !registrando = ya estoy dentro
   state () {
     return {
-      count: 0,
       inside: true,
-      correo: "",
-      usuario: "",
-      HashKey: "",
-      UserId: "",
       currUser: {_id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
       registrando: false,
       errorMessage: "",
       cuentas: [
         {
-          id: "au3721233",
+          _id: "au3721233",
           alias: "lalita",
           idUsuario: "akskas123847547854",
           sitio: "lala.com",
           correo: "lala@gmail.com",
           passwd: "lala",
           username: "lala",
-          salt: "soyUnaTetera"
+          salt: "soyUnaTetera",
         },
         {
-          id: "au372ww1233",
-          alias: "alpurita",
-          idUsuario: "akskas123847547854",
-          sitio: "alpura.com",
-          correo: "lala@gmail.com",
-          passwd: "lala",
-          username: "lalaumi",
-          salt: "soyUnaTeteraPequeñita"
+          _id: "au372ww1233",//Si viene del back end
+          alias: "alpurita",//Si viene del back end
+          idUsuario: "akskas123847547854",//Si viene del back end
+          sitio: "alpura.com",//Si viene del back end
+          correo: "lala@gmail.com",//Si viene del back end
+          passwd: "lala",//Si viene del back end
+          username: "lalaumi",//Si viene del back end
+          salt: "soyUnaTeteraPequeñita",//No viene del back end
         }
       ],
       cuentaSelected: false,
+      currCuenta: {
+        _id: "", alias: "", idUsuario: "", sitio: "", 
+        correo: "", passwd: "", username: ""
+      }
     }
   },
       
@@ -84,37 +83,19 @@ export default createStore({//Para mantener las sesiones
     //   //https://developer.mozilla.org/en-US/docs/Web/API/fetch
     // https://www.codepanion.com/posts/2020-02-02-how-to-use-async-await-promises-with-fetch-in-vue-js-vuex/ 
 
+    selectAccount(state, payload){
+      state.cuentaSelected = true;
+      state.currCuenta = payload;
+    },
+    unSelectAccount(state){
+      state.cuentaSelected = false;
+      state.currCuenta= {
+        _id: "", alias: "", idUsuario: "", sitio: "", 
+        correo: "", passwd: "", username: ""
+      } 
+    }
   },
   actions:{
-     async register2({commit, dispatch},payload){
-      try{
-        
-        let newUser = {
-          "usuario": payload.usuario,
-          "correo": payload.correo,
-          "passwd": payload.password
-        }
-        
-        let response = await fetch("http://localhost:5000/api/users/"+newUser.correo, {
-              method: 'POST', // or 'PUT'
-              body: JSON.stringify(newUser), // data can be `string` or {object}!
-              headers:{
-                'Content-Type': 'application/json'
-              }
-        })
-
-        if (response.status === 400){
-          this.state.errorMessage="Ya existe una cuenta con el correo asociado";
-        throw (response.status)
-        }
-
-        commit("setErrorMessage","");
-        // console.log("Llamo al login")
-        dispatch("login",payload)
-      }catch{
-        commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
-      } 
-    },
 
     async register({commit, dispatch},payload){
       try{

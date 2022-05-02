@@ -20,13 +20,13 @@ import ActionMenu from "./components/ActionMenu.vue"
     </nav>
 
     <div class="row " v-if="this.$store.state.inside">
-        <div class="col m2 grey lighten-2 full-width" id="ActionMenu">
+        <div class="col m2 grey lighten-2 full-height" id="ActionMenu">
             <ActionMenu v-if="this.$store.state.inside"/>
         </div>
-        <div class="col m4 grey lighten-3 full-width" id="AccountMenu">
+        <div class="col m4 grey lighten-3 full-height" id="AccountMenu">
             <AccountMenu v-if="this.$store.state.inside"/>
         </div>
-        <div class="col m6 grey lighten-4 full-width" id="AccountInfo">
+        <div class="col m6 grey lighten-4 full-height" id="AccountInfo">
             <AccountInfo v-if="this.$store.state.inside && this.$store.state.cuentaSelected"/>
         </div>
     </div>
@@ -34,7 +34,7 @@ import ActionMenu from "./components/ActionMenu.vue"
     <div class="row" v-if="!this.$store.state.inside">
         <div class="col m4">
         </div>
-        <div class="col m4 full-width">
+        <div class="col m4 full-height">
             <LoginMenu v-if="!this.$store.state.inside && !this.$store.state.registrando"/>
             <RegisterMenu v-if="!this.$store.state.failedLogin && !this.$store.state.inside && this.$store.state.registrando"/>
         </div>
@@ -63,8 +63,8 @@ export default {
     *{
         border-left: 0px solid red
     }
-    .full-width {
+    .full-height {
         height: 100%;
-        min-height: 1000px !important;
+        min-height: 92vmin !important;
     }
 </style>
