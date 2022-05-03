@@ -2,39 +2,37 @@
       <div class="card-panel z-depth-1" :class="{'teal lighten-2': isClicked && cuenta._id===this.$store.state.currCuenta._id, hover: isHovering}"
         @click="selectOrUnSelect(cuenta)"  @mouseover="isHovering = true;" 
         @mouseout="isHovering = false;" >
-            <h5 :class="{'white-text': isHovering}"> {{cuenta.alias}}</h5>
-            <p :class="{'white-text': isHovering}" > {{cuenta.username }}</p>
+            <h5 :class="{'white-text': isHovering || isClicked}"> 
+              {{cuenta.alias}}
+            </h5>
+            <p :class="{'white-text': isHovering || isClicked}" > 
+              {{cuenta.username }}
+            </p>
         </div>
 </template>       
 
 <script>
-export default {
+import { mapState } from 'vuex';
 
+export default {
+  name: 'IndividualAccount',
   data(){
         return {
             isHovering: false,
-            isClicked: this.$store.state.currCuenta!==this.cuenta,
+            isClicked: false,
         }
     },
-  name: 'IndividualAccount',
   props: {
     cuenta: Object,
   },
+  computed: mapState(['currCuenta']),
   methods: {
 
     selectOrUnSelect(cuenta){
-      if(this.$store.state.currCuenta._id!==cuenta._id){
+      if(!this.isClicked){
         this.$store.commit("selectAccount",cuenta)
-        console.log(this.$store.state.currCuenta)
-        this.isClicked = true;
-        console.log(this.$store.state.currCuenta===cuenta)
-        console.log("this.isClicked "+this.isClicked)
       }else{
-        this.isClicked = false;
         this.$store.commit("unSelectAccount")
-        console.log("this.isClicked "+this.isClicked)
-        console.log(this.$store.state.currCuenta)
-        console.log("Lo deselecciono")
       }
     },
 
@@ -42,9 +40,15 @@ export default {
       console.log(data)
     }
   },
-  // mounted() {
-  //   this.isClicked = this.$store.state.currCuenta!==this.cuenta
-  // }
+  created() {
+    this.$watch('currCuenta', (newCurrCuenta) => {
+      this.isClicked = this.currCuenta._id===this.cuenta._id
+      // console.log(this.currCuenta)
+    })
+  },
+  beforeDestroy() {
+    this.unwatch();
+  },
 }
 </script>
 <style>

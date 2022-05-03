@@ -21,8 +21,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-
+  name: 'AccountInfo',
+    data(){
+        return {
+            usuario: "",
+            password: "",
+            correo: "",
+        }
+    },
+    computed: mapState(['currCuenta']),
 }
 </script>
 

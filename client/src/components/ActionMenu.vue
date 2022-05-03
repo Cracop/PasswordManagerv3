@@ -7,7 +7,12 @@
 
 <script>
 export default {
-
+    name: 'ActionMenu',
+    data(){
+        return {
+            
+        }
+    },
 }
 </script>
 
