@@ -39,72 +39,12 @@ export default createStore({//Para mantener las sesiones
           _id: "3456789",//Si viene del back end
           alias: "liconsita",//Si viene del back end
           idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "liconsa.com",//Si viene del back end
+          sitio: "",//Si viene del back end
           correo: "lala@gmail.com",//Si viene del back end
           passwd: "lala",//Si viene del back end
           username: "lalaumi",//Si viene del back end
           salt: "CuandoVaporizoMiVozTeGrita",//No viene del back end
         },
-        {
-          _id: "au3721233",
-          alias: "lalita",
-          idUsuario: "akskas123847547854",
-          sitio: "lala.com",
-          correo: "lala@gmail.com",
-          passwd: "lala",
-          username: "lala",
-          salt: "soyUnaTeteraPequeñita",
-        },
-        {
-          _id: "73647143578",//Si viene del back end
-          alias: "alpurita",//Si viene del back end
-          idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "alpura.com",//Si viene del back end
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
-          salt: "TengoMiAsaYMiEspita",//No viene del back end
-        },
-        {
-          _id: "3456789",//Si viene del back end
-          alias: "liconsita",//Si viene del back end
-          idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "liconsa.com",//Si viene del back end
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
-          salt: "CuandoVaporizoMiVozTeGrita",//No viene del back end
-        },
-        {
-          _id: "au3721233",
-          alias: "lalita",
-          idUsuario: "akskas123847547854",
-          sitio: "lala.com",
-          correo: "lala@gmail.com",
-          passwd: "lala",
-          username: "lala",
-          salt: "soyUnaTeteraPequeñita",
-        },
-        {
-          _id: "73647143578",//Si viene del back end
-          alias: "alpurita",//Si viene del back end
-          idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "alpura.com",//Si viene del back end
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
-          salt: "TengoMiAsaYMiEspita",//No viene del back end
-        },
-        {
-          _id: "3456789",//Si viene del back end
-          alias: "liconsita",//Si viene del back end
-          idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "liconsa.com",//Si viene del back end
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
-          salt: "CuandoVaporizoMiVozTeGrita",//No viene del back end
-        }
       ],
       cuentaSelected: false,
       currCuenta: {

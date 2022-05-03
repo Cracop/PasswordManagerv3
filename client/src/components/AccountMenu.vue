@@ -2,9 +2,9 @@
 import IndividualAccount from "./IndividualAccount.vue"
 </script>
 <template>
-<div class="">
-    <ul class="collection scrollable">
-    <div class= "container" v-for="cuenta in this.$store.state.cuentas" :key="cuenta.id">
+<div class="container" >
+    <ul class="collection scrollable" style="margin-top:3rem">
+    <div class= "" v-for="cuenta in this.cuentas" :key="cuenta.id">
             <div class="row">
                 <IndividualAccount :cuenta="cuenta"/>    
             </div>       
@@ -14,13 +14,14 @@ import IndividualAccount from "./IndividualAccount.vue"
 </template>
 
 <script>
-
+import { mapState } from 'vuex';
 export default {
     data(){
         return {
             isHovering: false
         }
     },
+    computed: mapState(['currCuenta', 'cuentas']),
     components: {
         IndividualAccount
     }, 

@@ -32,6 +32,7 @@ export default {
       }else{
         this.$store.commit("unSelectAccount")
       }
+      console.log(this.currCuenta.alias)
     },
 
     log(data){
@@ -41,11 +42,9 @@ export default {
   created() {
     this.$watch('currCuenta', (newCurrCuenta) => {
       this.isClicked = this.currCuenta._id===this.cuenta._id
-      // console.log(this.currCuenta)
+      // console.log(JSON.parse(JSON.stringify(this.currCuenta)))
+      
     })
-  },
-  beforeDestroy() {
-    this.unwatch();
   },
 }
 </script>
