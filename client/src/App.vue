@@ -19,11 +19,11 @@ import ActionMenu from "./components/ActionMenu.vue"
         </div>
     </nav>
 
-    <div class="row " v-if="this.$store.state.inside">
+    <div class="row scroll" v-if="this.$store.state.inside">
         <div class="col m2 grey lighten-1 full-height" id="ActionMenu">
             <ActionMenu v-if="this.$store.state.inside"/>
         </div>
-        <div class="col m4 grey lighten-2 full-height" id="AccountMenu">
+        <div class="col m4 grey lighten-2 full-height" id="AccountMenu" style="overflow: auto;">
             <AccountMenu v-if="this.$store.state.inside"/>
         </div>
         <div class="col m6 grey lighten-3 full-height" id="AccountInfo">
@@ -64,11 +64,13 @@ export default {
         border-left: 0px solid red;
     }
     .full-height {
-        height: 100% !important;
+        height: 100px !important;
         min-height: 92vmin !important;
     }
 
     .menu{
         background-color: #E0E0E0 !important;
     }
+
+    
 </style>
