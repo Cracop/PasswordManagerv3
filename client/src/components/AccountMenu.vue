@@ -2,10 +2,12 @@
 import IndividualAccount from "./IndividualAccount.vue"
 </script>
 <template>
-<div class="container">
+<div class="">
     <ul class="collection">
     <div v-for="cuenta in this.$store.state.cuentas" :key="cuenta.id">
-            <IndividualAccount :cuenta="cuenta"/>       
+            <div class="row">
+                <IndividualAccount :cuenta="cuenta"/>    
+            </div>       
     </div>
   </ul>
 </div> 
@@ -30,11 +32,8 @@ export default {
 
 <style>
 
-.card-panel {
-    height:7rem;
-}
-.hover:hover{
-  color: red
+.collection{
+    border-bottom: 3px solid red;
 }
 
 </style>

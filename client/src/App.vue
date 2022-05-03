@@ -20,13 +20,13 @@ import ActionMenu from "./components/ActionMenu.vue"
     </nav>
 
     <div class="row " v-if="this.$store.state.inside">
-        <div class="col m2 grey lighten-2 full-height" id="ActionMenu">
+        <div class="col m2 grey lighten-1 full-height" id="ActionMenu">
             <ActionMenu v-if="this.$store.state.inside"/>
         </div>
-        <div class="col m4 grey lighten-3 full-height" id="AccountMenu">
+        <div class="col m4 grey lighten-2 full-height" id="AccountMenu">
             <AccountMenu v-if="this.$store.state.inside"/>
         </div>
-        <div class="col m6 grey lighten-4 full-height" id="AccountInfo">
+        <div class="col m6 grey lighten-3 full-height" id="AccountInfo">
             <AccountInfo v-if="this.$store.state.inside && this.$store.state.cuentaSelected"/>
         </div>
     </div>
@@ -61,10 +61,14 @@ export default {
 
 <style>
     *{
-        border-left: 0px solid red
+        border-left: 0px solid red;
     }
     .full-height {
-        height: 100%;
+        height: 100% !important;
         min-height: 92vmin !important;
+    }
+
+    .menu{
+        background-color: #E0E0E0 !important;
     }
 </style>

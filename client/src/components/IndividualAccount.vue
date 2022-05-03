@@ -1,14 +1,12 @@
 <template>
-      <div class="card-panel z-depth-1" :class="{'teal lighten-2': isClicked && cuenta._id===this.$store.state.currCuenta._id, hover: isHovering}"
-        @click="selectOrUnSelect(cuenta)"  @mouseover="isHovering = true;" 
-        @mouseout="isHovering = false;" >
-            <h5 :class="{'white-text': isHovering || isClicked}"> 
-              {{cuenta.alias}}
-            </h5>
-            <p :class="{'white-text': isHovering || isClicked}" > 
-              {{cuenta.username }}
-            </p>
-        </div>
+      <li class="collection-item" :class="{'teal lighten-2': isClicked, hover: isHovering}"
+       @click="selectOrUnSelect(cuenta)"  @mouseover="isHovering = true;" 
+        @mouseout="isHovering = false;">
+      <span class="title" :class="{'white-text': isHovering || isClicked}">{{cuenta.alias}}</span>
+      <p :class="{'white-text': isHovering || isClicked}">
+        {{cuenta.username }}
+      </p>
+    </li>
 </template>       
 
 <script>
@@ -62,16 +60,24 @@ export default {
     color: #424242  
   }
 
+.card-panel {
+    height:7rem;
+}
 
+.collection-item {
+    height:100%;
+    border: 0px solid red;
+    border-bottom: 0px solid red;
+    border-radius: 3px;
+}
 
   .hover:hover{
-    background-color: #EE6E73;
-    color: white !important
+    background-color: #EE6E73 !important;
+
   }
 
   hovering{
-    background-color: #EE6E73;
-    color: white !important
+    background-color: #EE6E73 !important;
   }
   
 </style>
