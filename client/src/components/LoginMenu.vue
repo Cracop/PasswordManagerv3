@@ -55,7 +55,6 @@ export default {
         ShowRegisterMenu() {
             this.$store.commit('ShowRegisterMenu')
         },
-
   },
 }
 </script>

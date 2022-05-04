@@ -27,9 +27,9 @@ export default createStore({//Para mantener las sesiones
         },
         {
           _id: "73647143578",//Si viene del back end
-          alias: "alpurita",//Si viene del back end
+          alias: "alpurita",//Si viene del back end requerido
           idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "alpura.com",//Si viene del back end
+          sitio: "alpura.com",//Si viene del back end no requerido
           correo: "lala@gmail.com",//Si viene del back end
           passwd: "lala",//Si viene del back end
           username: "lalaumi",//Si viene del back end
@@ -103,6 +103,9 @@ export default createStore({//Para mantener las sesiones
         _id: "", alias: "", idUsuario: "", sitio: "", 
         correo: "", passwd: "", username: ""
       } 
+    },
+    modifyAccount(state, payload){
+      state.currCuenta = payload;
     }
   },
   actions:{

@@ -4,7 +4,7 @@ import IndividualAccount from "./IndividualAccount.vue"
 <template>
 <div class="container" >
     <ul class="collection scrollable" style="margin-top:3rem">
-    <div class= "" v-for="cuenta in this.cuentas" :key="cuenta.id">
+    <div class= "" v-for="cuenta in this.listCuentas" :key="cuenta.id">
             <div class="row">
                 <IndividualAccount :cuenta="cuenta"/>    
             </div>       
@@ -18,16 +18,23 @@ import { mapState } from 'vuex';
 export default {
     data(){
         return {
-            isHovering: false
+            isHovering: false,
+            listCuentas: this.$store.state.cuentas
         }
     },
-    computed: mapState(['currCuenta', 'cuentas']),
+    computed: mapState(['currCuenta']),
     components: {
         IndividualAccount
     }, 
     methods: {
 
-    }
+    },
+    created() {
+    this.$watch('cuentas', (newCurrCuenta) => {
+      // console.log(JSON.parse(JSON.stringify(this.currCuenta)))
+      listCuentas= this.$store.state.cuentas
+    })
+  },
 }
 </script>
 
