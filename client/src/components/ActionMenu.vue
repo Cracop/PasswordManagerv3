@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         Botones para hacer cosas
+        {{this.$store.state.test}}
     </div>
     
 </template>

@@ -85,7 +85,8 @@ export default {
     guardar(){
       this.$store.commit('modifyAccount', this.activeCuenta)
       this.editing = false
-      console.log(this.$store.state.currCuenta)
+      console.log(this.$store.state.cuentas)
+      // console.log(this.$store.state.currCuenta)
     }
   }
 }

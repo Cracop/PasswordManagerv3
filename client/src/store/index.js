@@ -50,7 +50,8 @@ export default createStore({//Para mantener las sesiones
       currCuenta: {
         _id: "", alias: "", idUsuario: "", sitio: "", 
         correo: "", passwd: "", username: ""
-      }
+      },
+      test: 0,
     }
   },
       
@@ -106,6 +107,12 @@ export default createStore({//Para mantener las sesiones
     },
     modifyAccount(state, payload){
       state.currCuenta = payload;
+      // encuentro índice
+      const index = state.cuentas.map(cuenta => cuenta._id).indexOf(payload._id);
+      // console.log("indice "+index)
+      // sobreescribo
+      state.cuentas[index] = state.currCuenta
+      
     }
   },
   actions:{
