@@ -7,9 +7,9 @@
       
       <div class="container col m12 center-align" v-for="[campo, valor] in Object.entries(this.activeCuenta)" :key="campo">
           <div v-if="visibleInputs.includes(campo) && (this.activeCuenta[campo]!=='' || this.editing)">
-            <h6 class="left-align">{{campo}}:</h6>
+            <h6 class="left-align">{{fancyNames[campo]}}:</h6>
             <div class="input-field col m12">
-              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.activeCuenta[campo]" :disabled="!this.editing"/>
+              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd || this.creating) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.activeCuenta[campo]" :disabled="!this.editing"/>
               <i class="far fa-eye"  style="margin-left: -30px; cursor: pointer;" v-show="campo==='passwd'" @click="toggleVisibiliy()"></i>
             </div>
           </div>
@@ -21,7 +21,7 @@
            <a class="waves-effect waves-light btn center-align" style="width: 100%;" @click="startEdit()">Editar</a>
         </div>
         <div class ="col m4 center-align">
-           <a class="waves-effect waves-light btn center-align" style="width: 100%;">Eliminar</a>
+           <a class="waves-effect waves-light btn center-align" style="width: 100%;" @click="eliminar()">Eliminar</a>
         </div>
         <div class ="col m2 center-align">
            
@@ -54,11 +54,14 @@ export default {
   name: 'AccountInfo',
   components:{
   },
-  computed: mapState(['currCuenta']),
+  computed: mapState(['currCuenta', 'creating']),
   data(){
       return {
           visiblePasswd: false,
-          visibleInputs: ["alias","sitio", "username", "correo", "passwd"],
+          visibleInputs: ["alias","URL", "username", "correo", "passwd"],
+          fancyNames: {
+            "alias": "Nombre", "URL": "URL", "username": "Usuario", "correo": "Correo Electrónico", "passwd": "Contraseña"
+          },
           activeCuenta: JSON.parse(JSON.stringify(this.$store.state.currCuenta)),
           editing: false
       }
@@ -85,8 +88,14 @@ export default {
     guardar(){
       this.$store.commit('modifyAccount', this.activeCuenta)
       this.editing = false
-      console.log(this.$store.state.cuentas)
+      this.visiblePasswd = false;
+      // console.log(this.$store.state.cuentas)
       // console.log(this.$store.state.currCuenta)
+    },
+    eliminar(){
+      this.editing = false;
+      console.log("Toca eliminar: "+this.activeCuenta)
+      console.log(this.activeCuenta)
     }
   }
 }

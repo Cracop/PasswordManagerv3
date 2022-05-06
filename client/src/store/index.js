@@ -13,13 +13,14 @@ export default createStore({//Para mantener las sesiones
       currUser: {_id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
       registrando: false,
+      creating:false,
       errorMessage: "",
       cuentas: [
         {
           _id: "au3721233",
-          alias: "lalita",
-          idUsuario: "akskas123847547854",
-          sitio: "lala.com",
+          alias: "lala", //Requerido
+          idUsuario: "akskas123847547854", //Requerido
+          URL: "lala.com",
           correo: "lala@gmail.com",
           passwd: "lala",
           username: "lala",
@@ -27,31 +28,32 @@ export default createStore({//Para mantener las sesiones
         },
         {
           _id: "73647143578",//Si viene del back end
-          alias: "alpurita",//Si viene del back end requerido
+          alias: "alpura",//Si viene del back end requerido
           idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "alpura.com",//Si viene del back end no requerido
+          URL: "alpura.com",//Si viene del back end no requerido
           correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
+          passwd: "alpura",//Si viene del back end
+          username: "alpura",//Si viene del back end
           salt: "TengoMiAsaYMiEspita",//No viene del back end
         },
         {
           _id: "3456789",//Si viene del back end
-          alias: "liconsita",//Si viene del back end
+          alias: "liconsa",//Si viene del back end
           idUsuario: "akskas123847547854",//Si viene del back end
-          sitio: "",//Si viene del back end
+          URL: "",//Si viene del back end
           correo: "lala@gmail.com",//Si viene del back end
-          passwd: "lala",//Si viene del back end
-          username: "lalaumi",//Si viene del back end
+          passwd: "liconsa",//Si viene del back end
+          username: "liconsa",//Si viene del back end
           salt: "CuandoVaporizoMiVozTeGrita",//No viene del back end
         },
+        
       ],
       cuentaSelected: false,
       currCuenta: {
         _id: "", alias: "", idUsuario: "", sitio: "", 
         correo: "", passwd: "", username: ""
       },
-      test: 0,
+      
     }
   },
       
@@ -112,7 +114,10 @@ export default createStore({//Para mantener las sesiones
       // console.log("indice "+index)
       // sobreescribo
       state.cuentas[index] = state.currCuenta
-      
+    },
+    
+    eliminarCuenta(state, payload){
+      unSelecAccount()
     }
   },
   actions:{
@@ -191,6 +196,7 @@ export default createStore({//Para mantener las sesiones
         commit("failedLogin")
       }
     },
+
 
   }
 })
