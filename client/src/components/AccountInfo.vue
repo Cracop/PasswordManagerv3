@@ -5,11 +5,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <div class="container row" style="margin:5rem;margin-bottom:0rem">
       
-      <div class="container col m12 center-align" v-for="[campo, valor] in Object.entries(this.activeCuenta)" :key="campo">
-          <div v-if="visibleInputs.includes(campo) && (this.activeCuenta[campo]!=='' || this.editing)">
+      <div class="container col m12 center-align" v-for="[campo, valor] in Object.entries(this.bufferCuenta)" :key="campo">
+          <div v-if="visibleInputs.includes(campo) && (this.bufferCuenta[campo]!=='' || this.editing)">
             <h6 class="left-align">{{fancyNames[campo]}}:</h6>
             <div class="input-field col m12">
-              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd || this.creating) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.activeCuenta[campo]" :disabled="!this.editing"/>
+              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd || this.creating) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.bufferCuenta[campo]" :disabled="!this.editing"/>
               <i class="far fa-eye"  style="margin-left: -30px; cursor: pointer;" v-show="campo==='passwd'" @click="toggleVisibiliy()"></i>
             </div>
           </div>
@@ -62,13 +62,13 @@ export default {
           fancyNames: {
             "alias": "Nombre", "URL": "URL", "username": "Usuario", "correo": "Correo Electrónico", "passwd": "Contraseña"
           },
-          activeCuenta: JSON.parse(JSON.stringify(this.$store.state.currCuenta)),
+          bufferCuenta: JSON.parse(JSON.stringify(this.$store.state.currCuenta)),
           editing: false
       }
   },
   created() {
     this.$watch('currCuenta', (newCurrCuenta) => {
-      this.activeCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
+      this.bufferCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
       this.editing = false;
       // console.log(JSON.parse(JSON.stringify(this.currCuenta)))
       
@@ -83,10 +83,10 @@ export default {
     },
     cancelar(){
       this.editing = false
-      this.activeCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
+      this.bufferCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
     },
     guardar(){
-      this.$store.commit('modifyAccount', this.activeCuenta)
+      this.$store.commit('modifyAccount', this.bufferCuenta)
       this.editing = false
       this.visiblePasswd = false;
       // console.log(this.$store.state.cuentas)
@@ -94,8 +94,8 @@ export default {
     },
     eliminar(){
       this.editing = false;
-      console.log("Toca eliminar: "+this.activeCuenta)
-      console.log(this.activeCuenta)
+      console.log("Toca eliminar: "+this.bufferCuenta)
+      console.log(this.bufferCuenta)
     }
   }
 }

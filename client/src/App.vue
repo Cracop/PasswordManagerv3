@@ -13,13 +13,15 @@ import AccountInfo from "./components/AccountInfo.vue"
         <a href="#" class="brand-logo center">Password Manager V3</a>
 
         <ul class="right hide-on-med-and-down" v-show="this.$store.state.inside">
-            <li> Cambiar contraseña</li>
+            <li> Cambiar Contraseña</li>
            <li><a @click="unLogin()">Salir</a></li>
         </ul>
             
         </div>
     </nav>
+<div>
 
+</div>
     <div class="row" v-if="this.$store.state.inside">
         <div class="col m4 grey lighten-2 full-height" id="AccountMenu" style="overflow: auto;">
             <AccountMenu v-if="this.$store.state.inside"/>
@@ -40,12 +42,6 @@ import AccountInfo from "./components/AccountInfo.vue"
         </div>
     </div>
 
-    <div class="row" v-if="!this.$store.state.inside">
-    </div>
-
-    <footer class="teal">
-        <div></div>
-    </footer>
 </div>
 </template>
 
