@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/Users');
+const Account = require('../models/Accounts');
 const Sec = require('../Security.js');
 
 //NOTA, LAS VARIABLES SE DEBEN LLAMAR IGUAL QUE LOS CAMPOS EN EL SCHEMA
