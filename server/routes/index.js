@@ -15,22 +15,6 @@ router.get("/users", async (req,res)=> { //Select *
 
 //Create user 
 //https://www.google.com/search?client=firefox-b-d&q=vue+send+data+to+post+reques#kpvalbx=_pJo7YuyYJ4LdqtsPtZOU4AQ16
-// Debo quitar la info del UR
-router.post("/users/:correo", async (req,res)=> { //add
-    const {usuario, correo, passwd} = req.body;
-    const user = new User({usuario, correo, passwd})
-    try {
-        const oldUser = await User.findOne({'correo': req.params.correo})
-        if (oldUser) return res.status(400).send()
-
-        res.json({requestBody: req.body}) 
-        //console.log(task)
-    await user.save();
-    }catch (err) {
-        return res.status(500).send(error);
-    }
-    //res.json(user)
-});
 
 router.post("/user/signup", async (req,res)=> { //add
     
@@ -81,19 +65,6 @@ router.post("/user/login", async (req,res)=> {
 });
 
 //Get Specific user AKA Login
-// Debe ser un post
-router.get("/user/:correo/:password", async (req,res)=> { //Select * where
-    try{
-        const user = await User.findOne({ 'correo': req.params.correo, "passwd":req.params.password })
-        //si el id es valido, pero no hay tarea como esa
-        if (!user) return res.status(404).send("No hay tal usuario")
-        //console.log(user._id.toString())//Así guardo el valor del id
-        res.send(user);
-    }catch(error){//Si el id no es valido
-        console.log(error)
-        return res.status(500).send(error);
-    }
-});
 
 router.delete("/user/:id", async (req,res)=> { //Delete from where
     try{
@@ -120,5 +91,26 @@ router.get("/test", async (req,res)=> { //Select *
     const prueba = Sec.hashear("Hello")
     res.send(prueba);
 });
+
+//Add account
+router.post("/account/add", async (req, res) => {
+
+});
+
+//get accounts
+router.post("/accounts/get", async (req, res) => {
+
+});
+
+// Update an account
+router.patch('/account/update', async (req, res) => {
+    
+});
+
+// delete an account
+router.patch('/account/delete', async (req, res) => {
+    
+});
+
 
 module.exports = router
