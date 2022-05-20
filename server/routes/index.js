@@ -10,7 +10,7 @@ const Sec = require('../Security.js');
 
 router.get("/users", async (req,res)=> { //Select *
     const users = await User.find();
-    res.send(users);
+    return res.send(users);
 });
 
 //Create user 
@@ -23,9 +23,8 @@ router.post("/user/signup", async (req,res)=> { //add
         console.log(passwd)
         const oldUser = await User.findOne({'correo': correo})
         if (oldUser) return res.status(400).send()
-        const salt = "96771a284196c83cec8d9ff09100b3a0"
-        let temp =  Sec.hashear(passwd+salt)
-        passwd = temp;
+        const salt = Sec.saltear();
+        passwd =  Sec.hashear(passwd+salt)
         const user = new User({usuario, correo, passwd, salt})
         res.json({user}) 
         // console.log(user)
@@ -43,7 +42,7 @@ router.post("/user/login", async (req,res)=> {
         const {correo, passwd} = req.body;
         console.log(req.body)
         let user = await User.findOne({ 'correo': correo })
-
+        
         //si no hay correo guardado
         if (!user) return res.status(404).send("No hay tal usuario")
 
@@ -56,12 +55,13 @@ router.post("/user/login", async (req,res)=> {
             return res.status(401).send("Credenciales incorrectas");
 
         console.log(user)
-        res.send({"_id": user._id.toString(),"usuario": user.usuario});
+        return res.send({"_id": user._id.toString(),"usuario": user.usuario});
 
     }catch(error){
         console.log(error)
         return res.status(500).send(error);
     }
+
 });
 
 //Get Specific user AKA Login
@@ -94,12 +94,27 @@ router.get("/test", async (req,res)=> { //Select *
 
 //Add account
 router.post("/account/add", async (req, res) => {
-
+    try {//FALTA LA PARTE SEGURA
+        const {alias, idUsuario, URL, correo, passwd, username} = req.body;
+        const account = new Account({alias, idUsuario, URL, correo, passwd, username})
+        // res.json({account}) 
+        console.log(req.body)
+        const result = await account.save();
+        return res.status(200).send(result);
+        
+    }catch (err) {
+        console.log(err)
+        return res.status(500).send();
+    }
 });
 
 //get accounts
 router.post("/accounts/get", async (req, res) => {
-
+    const {idUsuario} = req.body;
+    console.log(idUsuario)
+    const accounts = await Account.find({'idUsuario': idUsuario});
+    console.log(accounts)
+    return res.send(accounts);
 });
 
 // Update an account

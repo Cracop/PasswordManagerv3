@@ -35,11 +35,7 @@ const AccountSchema = new Schema({
     username:{
         type: String, 
         required: false,
-    },
-    salt:{
-        type: String, 
-        required: true,
-    },
+    }
     },{
     versionKey: false
 });
