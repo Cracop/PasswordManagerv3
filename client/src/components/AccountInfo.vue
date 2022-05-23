@@ -6,10 +6,10 @@
   <div class="container row" style="margin:5rem;margin-bottom:0rem">
       
       <div class="container col m12 center-align" v-for="[campo, valor] in Object.entries(this.bufferCuenta)" :key="campo">
-          <div v-if="visibleInputs.includes(campo) && (this.bufferCuenta[campo]!=='' || this.editing)">
+          <div v-if="visibleInputs.includes(campo) && (this.bufferCuenta[campo]!=='' || this.editing || this.creating)">
             <h6 class="left-align">{{fancyNames[campo]}}:</h6>
             <div class="input-field col m12">
-              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd || this.creating) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.bufferCuenta[campo]" :disabled="!this.editing"/>
+              <input :id="campo" :type="(campo!=='passwd' || this.visiblePasswd) ? 'text' : 'password'" class="validate" :placeholder="valor" v-model="this.bufferCuenta[campo]" :disabled="(!this.editing)"/>
               <i class="far fa-eye"  style="margin-left: -30px; cursor: pointer;" v-show="campo==='passwd'" @click="toggleVisibiliy()"></i>
             </div>
           </div>
@@ -67,16 +67,25 @@ export default {
       }
   },
   created() {
+    console.log("estoy editando:",this.editing)
+    console.log("estoy creando:",this.$store.state.creating)
+    if(this.$store.state.creating){
+      this.editing = true;
+    }else{
+      this.editing = false;
+    }
     this.$watch('currCuenta', (newCurrCuenta) => {
       this.bufferCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
       this.editing = false;
+      // console.log("Cambia cuenta")
       // console.log(JSON.parse(JSON.stringify(this.currCuenta)))
       
     })
   },
   methods: {
     startEdit(){
-      this.editing = true 
+      this.editing = true
+       console.log("editing",this.editing)
     },
     toggleVisibiliy(){
       this.visiblePasswd = !this.visiblePasswd 
@@ -84,11 +93,17 @@ export default {
     cancelar(){
       this.editing = false
       this.bufferCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
+      if (this.$store.state.creating){
+        this.$store.commit("unSelectAccount")
+        console.log("creating",this.$store.state.creating)
+        console.log("editing",this.editing)
+      }
     },
     guardar(){
       this.$store.commit('modifyAccount', this.bufferCuenta)
       this.editing = false
       this.visiblePasswd = false;
+      this.$store.commit("creating", false)
       // console.log(this.$store.state.cuentas)
       // console.log(this.$store.state.currCuenta)
     },

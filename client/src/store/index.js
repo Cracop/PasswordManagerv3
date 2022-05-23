@@ -50,7 +50,7 @@ export default createStore({//Para mantener las sesiones
       ],
       cuentaSelected: false,
       currCuenta: {
-        _id: "", alias: "", idUsuario: "", sitio: "", 
+        _id: "", alias: "", idUsuario: "", URL: "", 
         correo: "", passwd: "", username: ""
       },
       
@@ -98,10 +98,12 @@ export default createStore({//Para mantener las sesiones
 
     selectAccount(state, payload){
       state.cuentaSelected = true;
+      state.creating = false;
       state.currCuenta = payload;
     },
     unSelectAccount(state){
       state.cuentaSelected = false;
+      state.creating = false;
       state.currCuenta= {
         _id: "", alias: "", idUsuario: "", sitio: "", 
         correo: "", passwd: "", username: ""
@@ -115,14 +117,13 @@ export default createStore({//Para mantener las sesiones
       // sobreescribo
       state.cuentas[index] = state.currCuenta
     },
-    
-    eliminarCuenta(state, payload){
-      unSelecAccount()
+    creating(state,payload){
+      state.creating = payload;
     }
   },
   actions:{
 
-    async register({commit, dispatch},payload){
+    async register({commit},payload){
       try{
         const passwd = Sec.hashear(payload.passwd)
         // console.log(Sec.cifrar(payload.usuario,passwd.slice(0, 32)))
@@ -148,12 +149,6 @@ export default createStore({//Para mantener las sesiones
         }
 
         commit("setErrorMessage","");
-        // console.log("Llamo al login")
-        // console.log({"correo": payload.correo,
-        // "passwd": payload.password})
-        // console.log(payload)
-
-        // dispatch("login",payload)
         commit("unLogin")
       }catch{
         commit("setErrorMessage","Ya existe una cuenta con el correo asociado");
@@ -196,7 +191,16 @@ export default createStore({//Para mantener las sesiones
         commit("failedLogin")
       }
     },
-
+    async agregarCuenta(state, payload){
+            const emptyCuenta= {
+                _id: "", alias: "", idUsuario: "", URL: "", 
+                correo: "", passwd: "", username: ""
+                }
+      state.commit("unSelectAccount")
+      state.commit("selectAccount",emptyCuenta)
+      state.commit("creating",true)
+      // console.log("creating", state.creating)
+    }
 
   }
 })

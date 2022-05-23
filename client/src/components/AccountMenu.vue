@@ -2,7 +2,7 @@
 import IndividualAccount from "./IndividualAccount.vue"
 </script>
 <template>
-<a class="btn-floating btn-large waves-effect waves-light" id="btnAgregar" @click="agregar()"><i >+</i></a>
+<a v-if="!this.$store.state.cuentaSelected" class="btn-floating btn-large waves-effect waves-light" id="btnAgregar" @click="agregar()"><i >+</i></a>
 <div class="container" >
     <ul class="collection scrollable" style="margin-top:3rem">
     <div class= "" v-for="cuenta in this.$store.state.cuentas" :key="cuenta.id">
@@ -28,9 +28,15 @@ export default {
     }, 
     methods: {
         agregar(){
-            this.creating = true;
-            this.$store.commit("unSelectAccount")
-            this.$store.commit("selectAccount",this.currCuenta)
+            if (!this.$store.state.creating){
+                this.$store.dispatch("agregarCuenta");
+                console.log("debería ponerse en verdadero", this.$store.state.creating)
+            }else{
+                this.$store.commit("unSelectAccount");
+                console.log("debería ponerse en falso", this.$store.state.creating)
+            } 
+            
+            // console.log("creating", this.$store.state.creating)
         }
     },
     created() {
