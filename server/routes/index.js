@@ -94,7 +94,8 @@ router.get("/test", async (req,res)=> { //Select *
 
 //Add account
 router.post("/account/add", async (req, res) => {
-    try {//FALTA LA PARTE SEGURA
+    try {//FALTA LA PARTE SEGURA, pero eso viene del cliente
+        console.log(req.body)
         const {alias, idUsuario, URL, correo, passwd, username} = req.body;
         const account = new Account({alias, idUsuario, URL, correo, passwd, username})
         // res.json({account}) 

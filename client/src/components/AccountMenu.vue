@@ -5,7 +5,7 @@ import IndividualAccount from "./IndividualAccount.vue"
 <a v-if="!this.$store.state.cuentaSelected" class="btn-floating btn-large waves-effect waves-light" id="btnAgregar" @click="agregar()"><i >+</i></a>
 <div class="container" >
     <ul class="collection scrollable" style="margin-top:3rem">
-    <div class= "" v-for="cuenta in this.$store.state.cuentas" :key="cuenta.id">
+    <div class= "" v-for="cuenta in this.listCuentas" :key="cuenta.id">
             <div class="row">
                 <IndividualAccount :cuenta="cuenta"/>    
             </div>       
@@ -20,6 +20,7 @@ export default {
     data(){
         return {
             isHovering: false,
+            listCuentas:[]
         }
     },
     computed: mapState(['currCuenta', 'cuentas','creating']),
@@ -42,7 +43,7 @@ export default {
     created() {
     this.$watch('cuentas', (newCurrCuenta) => {
       // console.log(JSON.parse(JSON.stringify(this.currCuenta)))
-      listCuentas = this.$store.state.cuentas
+      this.listCuentas = this.$store.state.cuentas
     })
   },
 }

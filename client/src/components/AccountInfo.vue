@@ -100,10 +100,17 @@ export default {
       }
     },
     guardar(){
-      this.$store.commit('modifyAccount', this.bufferCuenta)
-      this.editing = false
-      this.visiblePasswd = false;
-      this.$store.commit("creating", false)
+      if(this.$store.state.creating){
+        console.log("Creo una nueva cuenta")
+        this.$store.dispatch("guardarNuevaCuenta",this.bufferCuenta)
+      }else{//Ya existe la cuenta
+        this.$store.commit('modifyAccount', this.bufferCuenta)
+        console.log(this.bufferCuenta)
+        this.editing = false
+        this.visiblePasswd = false;
+        this.$store.commit("creating", false)
+      }
+      
       // console.log(this.$store.state.cuentas)
       // console.log(this.$store.state.currCuenta)
     },

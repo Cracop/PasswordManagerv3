@@ -15,39 +15,7 @@ export default createStore({//Para mantener las sesiones
       registrando: false,
       creating:false,
       errorMessage: "",
-      cuentas: [
-        {
-          _id: "au3721233",
-          alias: "lala", //Requerido
-          idUsuario: "akskas123847547854", //Requerido
-          URL: "lala.com",
-          correo: "lala@gmail.com",
-          passwd: "lala",
-          username: "lala",
-          salt: "soyUnaTeteraPequeñita",
-        },
-        {
-          _id: "73647143578",//Si viene del back end
-          alias: "alpura",//Si viene del back end requerido
-          idUsuario: "akskas123847547854",//Si viene del back end
-          URL: "alpura.com",//Si viene del back end no requerido
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "alpura",//Si viene del back end
-          username: "alpura",//Si viene del back end
-          salt: "TengoMiAsaYMiEspita",//No viene del back end
-        },
-        {
-          _id: "3456789",//Si viene del back end
-          alias: "liconsa",//Si viene del back end
-          idUsuario: "akskas123847547854",//Si viene del back end
-          URL: "",//Si viene del back end
-          correo: "lala@gmail.com",//Si viene del back end
-          passwd: "liconsa",//Si viene del back end
-          username: "liconsa",//Si viene del back end
-          salt: "CuandoVaporizoMiVozTeGrita",//No viene del back end
-        },
-        
-      ],
+      cuentas: [],
       cuentaSelected: false,
       currCuenta: {
         _id: "", alias: "", idUsuario: "", URL: "", 
@@ -116,11 +84,19 @@ export default createStore({//Para mantener las sesiones
       // console.log("indice "+index)
       // sobreescribo
       state.cuentas[index] = state.currCuenta
+      //Tengo que hacer la parte de mandarlo a través de la API
     },
     creating(state,payload){
       state.creating = payload;
+    },
+    getCuentas(state, payload){
+      // console.log(payload)
+      state.cuentas=payload;
+      console.log(state.cuentas)
     }
   },
+
+
   actions:{
 
     async register({commit},payload){
@@ -155,7 +131,7 @@ export default createStore({//Para mantener las sesiones
       } 
     },
 
-    async login({commit}, payload){
+    async login({commit,dispatch}, payload){
       try {
         
         // console.log(payload)
@@ -184,6 +160,7 @@ export default createStore({//Para mantener las sesiones
         console.log(user)
         
         commit("login", user)
+        await dispatch("getCuentas",Sec.hashear(user._id))
 
       }catch(error){
         console.log(error)
@@ -191,7 +168,7 @@ export default createStore({//Para mantener las sesiones
         commit("failedLogin")
       }
     },
-    async agregarCuenta(state, payload){
+    async agregarCuenta(state, payload){//Esto deja todo listo para empezar a modificar la nueva cuenta
             const emptyCuenta= {
                 _id: "", alias: "", idUsuario: "", URL: "", 
                 correo: "", passwd: "", username: ""
@@ -200,6 +177,61 @@ export default createStore({//Para mantener las sesiones
       state.commit("selectAccount",emptyCuenta)
       state.commit("creating",true)
       // console.log("creating", state.creating)
+    },
+    async modifyAccount(state, payload){//Modifico una cuenta existente
+      //Llamo a la API para
+
+      state.commit("modifyAccount",payload)
+    },
+    async guardarNuevaCuenta(state, payload){//Después de crear la cuenta, guardo en la base de datos
+      
+      // console.log(this.state.currUser.hashKey)
+      try{
+        const newCuenta =  {
+          "alias": Sec.cifrar(payload.alias, this.state.currUser.hashKey.slice(0,32)),
+          "idUsuario": Sec.hashear(this.state.currUser._id),
+          "URL": Sec.cifrar(payload.URL, this.state.currUser.hashKey.slice(0,32)),
+          "correo": Sec.cifrar(payload.correo, this.state.currUser.hashKey.slice(0,32)),
+          "passwd": Sec.cifrar(payload.passwd, this.state.currUser.hashKey.slice(0,32)),
+          "username": Sec.cifrar(payload.username, this.state.currUser.hashKey.slice(0,32)),
+        }
+        // console.log(newCuenta)
+        let response = await fetch("http://localhost:5000/api/account/add", {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(newCuenta), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json; charset=UTF-8',
+          }
+        })
+        let data = await response.json()
+        // console.log(data)
+  
+        state.commit("unSelectAccount")
+        state.commit("selectAccount",payload)
+        state.commit("creating",false)
+        state.dispatch("getCuentas",Sec.hashear(this.state.currUser._id))
+      }catch (err){
+        console.log(err)
+      }
+     
+    },
+
+    async getCuentas(state,payload){
+      console.log("usuario a buscar", payload)
+      try{
+        let response = await fetch("http://localhost:5000/api/accounts/get", {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify({"idUsuario":payload}), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json; charset=UTF-8',
+          }
+        })
+        let data = await response.json()
+        // console.log(data)
+        state.commit("getCuentas",data)
+      }catch (err){
+        console.log(err)
+      }
     }
 
   }
