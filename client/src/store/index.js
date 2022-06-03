@@ -227,6 +227,14 @@ export default createStore({//Para mantener las sesiones
           }
         })
         let data = await response.json()
+        for(let i=0;i<data.length;i++){ 
+          data[i].alias = Sec.descifrar(data[i].alias, this.state.currUser.hashKey.slice(0,32))
+          data[i].URL = Sec.descifrar(data[i].URL, this.state.currUser.hashKey.slice(0,32))
+          data[i].correo = Sec.descifrar(data[i].correo, this.state.currUser.hashKey.slice(0,32))
+          data[i].passwd = Sec.descifrar(data[i].passwd, this.state.currUser.hashKey.slice(0,32))
+          data[i].username = Sec.descifrar(data[i].username, this.state.currUser.hashKey.slice(0,32))
+          console.log(data[i])
+        }
         // console.log(data)
         state.commit("getCuentas",data)
       }catch (err){
