@@ -112,9 +112,9 @@ router.post("/account/add", async (req, res) => {
 //get accounts
 router.post("/accounts/get", async (req, res) => {
     const {idUsuario} = req.body;
-    console.log(idUsuario)
+    // console.log(idUsuario)
     const accounts = await Account.find({'idUsuario': idUsuario});
-    console.log(accounts)
+    // console.log(accounts)
     return res.send(accounts);
 });
 
@@ -124,8 +124,10 @@ router.patch('/account/update', async (req, res) => {
 });
 
 // delete an account
-router.patch('/account/delete', async (req, res) => {
-    
+router.post('/account/delete', async (req, res) => {
+    const {_id} = req.body;
+    await Account.deleteOne({ "_id": _id })
+    return res.send()
 });
 
 

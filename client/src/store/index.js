@@ -9,7 +9,7 @@ export default createStore({//Para mantener las sesiones
       // !failedLogin && inside && !registrando = ya estoy dentro
   state () {
     return {
-      inside: true,
+      inside: false,
       currUser: {_id: "", usuario: "", hashKey: "", correo:""},
       failedLogin: false,
       registrando: false,
@@ -160,7 +160,7 @@ export default createStore({//Para mantener las sesiones
         console.log(user)
         
         commit("login", user)
-        await dispatch("getCuentas",Sec.hashear(user._id))
+        await dispatch("getCuentas",user._id)
 
       }catch(error){
         console.log(error)
@@ -203,13 +203,11 @@ export default createStore({//Para mantener las sesiones
             'Content-Type': 'application/json; charset=UTF-8',
           }
         })
-        let data = await response.json()
+        // let data = await response.json()
         // console.log(data)
   
-        state.commit("unSelectAccount")
-        state.commit("selectAccount",payload)
         state.commit("creating",false)
-        state.dispatch("getCuentas",Sec.hashear(this.state.currUser._id))
+        state.dispatch("getCuentas",this.state.currUser._id)
       }catch (err){
         console.log(err)
       }
@@ -217,7 +215,8 @@ export default createStore({//Para mantener las sesiones
     },
 
     async getCuentas(state,payload){
-      console.log("usuario a buscar", payload)
+      // console.log("usuario a buscar", payload)
+      payload = Sec.hashear(payload)
       try{
         let response = await fetch("http://localhost:5000/api/accounts/get", {
           method: 'POST', // or 'PUT'
@@ -236,8 +235,23 @@ export default createStore({//Para mantener las sesiones
           console.log(data[i])
         }
         // console.log(data)
+        state.commit("unSelectAccount")
         state.commit("getCuentas",data)
       }catch (err){
+        console.log(err)
+      }
+    },
+    async eliminarCuenta(state,payload){
+      try{
+        let response = await fetch("http://localhost:5000/api/account/delete", {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify({"_id":payload}), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json; charset=UTF-8',
+          }
+        })
+        state.dispatch("getCuentas",this.state.currUser._id)
+      }catch(err){
         console.log(err)
       }
     }

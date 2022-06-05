@@ -104,6 +104,7 @@ export default {
         console.log("Creo una nueva cuenta")
         this.$store.dispatch("guardarNuevaCuenta",this.bufferCuenta)
       }else{//Ya existe la cuenta
+      //ESTO FALTA
         this.$store.commit('modifyAccount', this.bufferCuenta)
         console.log(this.bufferCuenta)
         this.editing = false
@@ -118,6 +119,7 @@ export default {
       this.editing = false;
       console.log("Toca eliminar: "+this.bufferCuenta)
       console.log(this.bufferCuenta)
+      this.$store.dispatch("eliminarCuenta", this.bufferCuenta._id)
     }
   }
 }
