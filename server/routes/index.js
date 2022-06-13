@@ -123,8 +123,10 @@ router.post('/account/update', async (req, res) => {
     try{
         const {_id, alias, idUsuario, URL, correo, passwd, username} = req.body;
         const query = { "_id": _id };
-        const account = new Account({alias, idUsuario, URL, correo, passwd, username})
-        Account.findByIdAndUpdate(_id,{account})
+        console.log(_id);
+        const account = {"alias":alias, "idUsuario": idUsuario, "URL":URL, "correo": correo, "passwd":passwd, "username":username}
+        console.log(account)
+        await Account.findByIdAndUpdate(_id,account)
         return res.status(200).send(account);
     }catch(err){
         return res.status(500).send(account);

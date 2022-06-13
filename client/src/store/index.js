@@ -181,7 +181,8 @@ export default createStore({//Para mantener las sesiones
     },
     async modifyAccount(state, payload){//Modifico una cuenta existente
       //Llamo a la API para modificar la cuenta
-      console.log(payload)
+      console.log("CuentaNueva")
+      // console.log(payload)
       try{
         // const newCuenta =  {
         //   "alias": Sec.cifrar(payload.alias, this.state.currUser.hashKey.slice(0,32)),
@@ -193,6 +194,7 @@ export default createStore({//Para mantener las sesiones
         // }
 
         const newCuenta =  {
+          "_id": payload._id,
           "alias": payload.alias,
           "idUsuario": Sec.hashear(this.state.currUser._id),
           "URL": payload.URL,
