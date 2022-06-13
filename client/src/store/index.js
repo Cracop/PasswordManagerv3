@@ -160,6 +160,7 @@ export default createStore({//Para mantener las sesiones
         console.log(user)
         
         commit("login", user)
+        commit("unSelectAccount")
         await dispatch("getCuentas",user._id)
 
       }catch(error){
@@ -179,21 +180,60 @@ export default createStore({//Para mantener las sesiones
       // console.log("creating", state.creating)
     },
     async modifyAccount(state, payload){//Modifico una cuenta existente
-      //Llamo a la API para
+      //Llamo a la API para modificar la cuenta
+      console.log(payload)
+      try{
+        // const newCuenta =  {
+        //   "alias": Sec.cifrar(payload.alias, this.state.currUser.hashKey.slice(0,32)),
+        //   "idUsuario": Sec.hashear(this.state.currUser._id),
+        //   "URL": Sec.cifrar(payload.URL, this.state.currUser.hashKey.slice(0,32)),
+        //   "correo": Sec.cifrar(payload.correo, this.state.currUser.hashKey.slice(0,32)),
+        //   "passwd": Sec.cifrar(payload.passwd, this.state.currUser.hashKey.slice(0,32)),
+        //   "username": Sec.cifrar(payload.username, this.state.currUser.hashKey.slice(0,32)),
+        // }
 
-      state.commit("modifyAccount",payload)
+        const newCuenta =  {
+          "alias": payload.alias,
+          "idUsuario": Sec.hashear(this.state.currUser._id),
+          "URL": payload.URL,
+          "correo": payload.correo,
+          "passwd": payload.passwd,
+          "username": payload.username,
+        }
+        // console.log(newCuenta)
+        let response = await fetch("http://localhost:5000/api/account/update", {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(newCuenta), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json; charset=UTF-8',
+          }
+        })
+      }catch (err){
+        console.log(err)
+      }
+
+      state.dispatch("getCuentas",this.state.currUser._id)
     },
     async guardarNuevaCuenta(state, payload){//Después de crear la cuenta, guardo en la base de datos
       
       // console.log(this.state.currUser.hashKey)
       try{
+        // const newCuenta =  {
+        //   "alias": Sec.cifrar(payload.alias, this.state.currUser.hashKey.slice(0,32)),
+        //   "idUsuario": Sec.hashear(this.state.currUser._id),
+        //   "URL": Sec.cifrar(payload.URL, this.state.currUser.hashKey.slice(0,32)),
+        //   "correo": Sec.cifrar(payload.correo, this.state.currUser.hashKey.slice(0,32)),
+        //   "passwd": Sec.cifrar(payload.passwd, this.state.currUser.hashKey.slice(0,32)),
+        //   "username": Sec.cifrar(payload.username, this.state.currUser.hashKey.slice(0,32)),
+        // }
+
         const newCuenta =  {
-          "alias": Sec.cifrar(payload.alias, this.state.currUser.hashKey.slice(0,32)),
+          "alias": payload.alias,
           "idUsuario": Sec.hashear(this.state.currUser._id),
-          "URL": Sec.cifrar(payload.URL, this.state.currUser.hashKey.slice(0,32)),
-          "correo": Sec.cifrar(payload.correo, this.state.currUser.hashKey.slice(0,32)),
-          "passwd": Sec.cifrar(payload.passwd, this.state.currUser.hashKey.slice(0,32)),
-          "username": Sec.cifrar(payload.username, this.state.currUser.hashKey.slice(0,32)),
+          "URL": payload.URL,
+          "correo": payload.correo,
+          "passwd": payload.passwd,
+          "username": payload.username,
         }
         // console.log(newCuenta)
         let response = await fetch("http://localhost:5000/api/account/add", {
@@ -226,13 +266,22 @@ export default createStore({//Para mantener las sesiones
           }
         })
         let data = await response.json()
+        // for(let i=0;i<data.length;i++){ 
+        //   data[i].alias = Sec.descifrar(data[i].alias, this.state.currUser.hashKey.slice(0,32))
+        //   data[i].URL = Sec.descifrar(data[i].URL, this.state.currUser.hashKey.slice(0,32))
+        //   data[i].correo = Sec.descifrar(data[i].correo, this.state.currUser.hashKey.slice(0,32))
+        //   data[i].passwd = Sec.descifrar(data[i].passwd, this.state.currUser.hashKey.slice(0,32))
+        //   data[i].username = Sec.descifrar(data[i].username, this.state.currUser.hashKey.slice(0,32))
+        //   console.log(data[i])
+        // }
+
         for(let i=0;i<data.length;i++){ 
-          data[i].alias = Sec.descifrar(data[i].alias, this.state.currUser.hashKey.slice(0,32))
-          data[i].URL = Sec.descifrar(data[i].URL, this.state.currUser.hashKey.slice(0,32))
-          data[i].correo = Sec.descifrar(data[i].correo, this.state.currUser.hashKey.slice(0,32))
-          data[i].passwd = Sec.descifrar(data[i].passwd, this.state.currUser.hashKey.slice(0,32))
-          data[i].username = Sec.descifrar(data[i].username, this.state.currUser.hashKey.slice(0,32))
-          console.log(data[i])
+          data[i].alias = data[i].alias
+          data[i].URL = data[i].URL
+          data[i].correo = data[i].correo
+          data[i].passwd = data[i].passwd
+          data[i].username = data[i].username
+          // console.log(data[i])
         }
         // console.log(data)
         state.commit("unSelectAccount")

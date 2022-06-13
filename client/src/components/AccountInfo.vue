@@ -85,7 +85,7 @@ export default {
   methods: {
     startEdit(){
       this.editing = true
-       console.log("editing",this.editing)
+      //  console.log("editing",this.editing)
     },
     toggleVisibiliy(){
       this.visiblePasswd = !this.visiblePasswd 
@@ -95,8 +95,8 @@ export default {
       this.bufferCuenta = JSON.parse(JSON.stringify(this.$store.state.currCuenta))
       if (this.$store.state.creating){
         this.$store.commit("unSelectAccount")
-        console.log("creating",this.$store.state.creating)
-        console.log("editing",this.editing)
+        // console.log("creating",this.$store.state.creating)
+        // console.log("editing",this.editing)
       }
     },
     guardar(){
@@ -105,8 +105,9 @@ export default {
         this.$store.dispatch("guardarNuevaCuenta",this.bufferCuenta)
       }else{//Ya existe la cuenta
       //ESTO FALTA
-        this.$store.commit('modifyAccount', this.bufferCuenta)
-        console.log(this.bufferCuenta)
+        this.$store.dispatch('modifyAccount', this.bufferCuenta)
+        // this.$store.dispatch("guardarNuevaCuenta",this.bufferCuenta)
+        // console.log(this.bufferCuenta)
         this.editing = false
         this.visiblePasswd = false;
         this.$store.commit("creating", false)

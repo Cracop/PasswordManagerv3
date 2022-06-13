@@ -95,7 +95,7 @@ router.get("/test", async (req,res)=> { //Select *
 //Add account
 router.post("/account/add", async (req, res) => {
     try {//FALTA LA PARTE SEGURA, pero eso viene del cliente
-        console.log(req.body)
+        // console.log(req.body)
         const {alias, idUsuario, URL, correo, passwd, username} = req.body;
         const account = new Account({alias, idUsuario, URL, correo, passwd, username})
         // res.json({account}) 
@@ -119,8 +119,16 @@ router.post("/accounts/get", async (req, res) => {
 });
 
 // Update an account
-router.patch('/account/update', async (req, res) => {
-    
+router.post('/account/update', async (req, res) => {
+    try{
+        const {_id, alias, idUsuario, URL, correo, passwd, username} = req.body;
+        const query = { "_id": _id };
+        const account = new Account({alias, idUsuario, URL, correo, passwd, username})
+        Account.findByIdAndUpdate(_id,{account})
+        return res.status(200).send(account);
+    }catch(err){
+        return res.status(500).send(account);
+    }
 });
 
 // delete an account
